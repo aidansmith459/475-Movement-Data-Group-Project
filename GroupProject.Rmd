@@ -1,0 +1,83 @@
+---
+title: "GroupProject"
+output: html_document
+date: "2023-11-21"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(dbscan)
+library(tidyverse)
+library(geosphere)
+library(ggplot2)
+```
+
+
+
+```{r}
+movements = read.csv("movements.csv", sep=",", header = TRUE)
+
+```
+```{r}
+tail(movements)
+
+```
+```{r}
+firstMonth <- movements %>%
+```
+
+```{r}
+coordinates <- movements %>%
+  select(longitude, latitude) %>%
+  filter(row_number() %% 100 == 0)
+```
+
+
+```{r}
+c1 <- hdbscan(coordinates, minPts = 5)
+```
+
+
+```{r}
+map <- leaflet(c1) %>%
+  
+```
+
+# removing moving points
+
+```{r}
+timeWindow = 15
+
+filteredMovements <- movements %>%
+  mutate(forwardDistance = 
+           ifelse(!is.na(lead(datetime, n=timeWindow)), distHaversine(
+             cbind(longitude, latitude),
+             cbind(lead(longitude, n=timeWindow), lead(latitude, n = timeWindow))
+           ),
+           NA_real_
+           )) %>%
+  mutate(backwardDistance = 
+           ifelse(!is.na(lag(datetime, n=timeWindow)), distHaversine(
+             cbind(longitude, latitude),
+             cbind(lag(longitude, n=timeWindow), lag(latitude, n = timeWindow))
+           ),
+           NA_real_
+           )) %>%
+  filter(forwardDistance < 100 | backwardDistance < 100)
+```
+
+```{r}
+#print("hello")
+range(filteredMovements$forwardDistance, na.rm = TRUE)
+
+
+ggplot(filteredMovements, aes(x=forwardDistance)) +
+  geom_histogram(binwidth = 100)
+```
+
+```{r}
+```
