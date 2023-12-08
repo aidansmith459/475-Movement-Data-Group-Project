@@ -14,70 +14,209 @@ library(dbscan)
 library(tidyverse)
 library(geosphere)
 library(ggplot2)
+library(lubridate)
+library(ggmap)
+library(mapproj)
+library(leaflet)
+library(sp)
 ```
 
 
 
 ```{r}
-movements = read.csv("movements.csv", sep=",", header = TRUE)
+movements0 = read.csv("CleanData/movements_0.csv", sep=",", header = TRUE)
 
 ```
-```{r}
-tail(movements)
 
-```
-```{r}
-firstMonth <- movements %>%
-```
-
-```{r}
-coordinates <- movements %>%
-  select(longitude, latitude) %>%
-  filter(row_number() %% 100 == 0)
-```
-
-
-```{r}
-c1 <- hdbscan(coordinates, minPts = 5)
-```
-
-
-```{r}
-map <- leaflet(c1) %>%
-  
-```
 
 # removing moving points
 
 ```{r}
 timeWindow = 15
 
-filteredMovements <- movements %>%
+filteredMovements0 <- movements0 %>%
   mutate(forwardDistance = 
-           ifelse(!is.na(lead(datetime, n=timeWindow)), distHaversine(
+           ifelse(!is.na(lead(date, n=timeWindow)), distHaversine(
              cbind(longitude, latitude),
              cbind(lead(longitude, n=timeWindow), lead(latitude, n = timeWindow))
            ),
            NA_real_
            )) %>%
   mutate(backwardDistance = 
-           ifelse(!is.na(lag(datetime, n=timeWindow)), distHaversine(
+           ifelse(!is.na(lag(date, n=timeWindow)), distHaversine(
              cbind(longitude, latitude),
              cbind(lag(longitude, n=timeWindow), lag(latitude, n = timeWindow))
            ),
            NA_real_
            )) %>%
-  filter(forwardDistance < 100 | backwardDistance < 100)
+  filter(forwardDistance < 75 | backwardDistance < 75)
 ```
 
 ```{r}
 #print("hello")
-range(filteredMovements$forwardDistance, na.rm = TRUE)
+range(filteredMovements0$forwardDistance, na.rm = TRUE)
 
 
-ggplot(filteredMovements, aes(x=forwardDistance)) +
-  geom_histogram(binwidth = 100)
+ggplot(filteredMovements0, aes(x=forwardDistance)) +
+  geom_histogram(binwidth = 25)
+```
+# Resampling data to 5 minute intervals (this takes a while)
+
+```{r}
+newFiltered0 = data.frame(date=character(), time=character(), longitude=double(), latitude=double(), samples=double())
+i = 1
+print(filteredMovements0[1,5])
+while (i <= length(filteredMovements0[,1])){
+  minutes = as.numeric(format(strptime(filteredMovements0[i,5], "%H:%M:%S"), '%M'))
+  date = filteredMovements0[i,4]
+  time = filteredMovements0[i,5]
+  
+  sumLat = filteredMovements0[i,3]
+  sumLong = filteredMovements0[i,2]
+  
+  i = i + 1
+  num = 1
+  curMin =  as.numeric(format(strptime(filteredMovements0[i,5], "%H:%M:%S"), '%M'))
+  while ((curMin - minutes) < 5 & num < 10 & i <= length(filteredMovements0[,1])) {
+    sumLat = sumLat + filteredMovements0[i,3]
+    sumLong = sumLong + filteredMovements0[i,2]
+    i = i + 1
+    num = num + 1
+    curMin =  as.integer(format(strptime(filteredMovements0[i,5], "%H:%M:%S"), '%M'))
+  }
+  newLat = sumLat / num
+  newLong = sumLong / num
+  
+  newFiltered0 <- rbind(newFiltered0, list(date, time, newLong, newLat, num))
+}
+
+colnames(newFiltered0) <- c('date', 'time', 'longitude', 'latitude', 'samples')
+```
+# create coordinate0 (no longer needed?)
+
+```{r}
+coordinates0 <- filteredMovements0 %>%
+  select(longitude, latitude) %>%
+  filter(row_number() %% 5 == 0)
+c0 <- hdbscan(coordinates0, minPts = 5)
+```
+
+# perform hdbscan on resampled data
+
+```{r}
+coordinates0 <- newFiltered0 %>%
+  select(longitude, latitude)
+c0 <- hdbscan(coordinates0, minPts = 20)
+```
+
+# add labels to data
+
+```{r}
+coordinates0$clusterLabel <- as.factor(c0$cluster)
+```
+
+# create 1 point for each cluster
+```{r}
+testCluster <- subset(coordinates0, clusterLabel == 0)
 ```
 
 ```{r}
+clusterCoordinates = data.frame(longitude=double(), latitude=double(), count=double())
+
+length = length(unique(coordinates0$clusterLabel))
+i = 0
+
+while (i < length) {
+  tempCluster = coordinates0 [coordinates0$clusterLabel == i,]
+  
+  tempLat = mean(tempCluster$latitude)
+  tempLong = mean(tempCluster$longitude)
+  num = nrow(tempCluster)
+  
+  i = i + 1
+  
+  clusterCoordinates = rbind(clusterCoordinates, 
+                             list(tempLong, tempLat, num))
+}
+
+colnames(clusterCoordinates) <- c('longitude', 'latitude', 'samples')
+```
+
+# plot via leaflet
+
+```{r}
+coordinates(clusterCoordinates) <- ~longitude+latitude
+leaflet(clusterCoordinates) %>% addMarkers(label = samples) %>% addTiles()
+```
+
+
+
+
+# stamen maps no longer exist, google requires API
+```{r}
+map <- get_stadiamap(bbox = c(lon = range(coordinates0$longitude), 
+                              lat = range(coordinates0$latitude)),
+                              zoom = 10,
+                              maptype = "toner")
+ggmap(map) + 
+  geom_point(data = coordinates0, aes(x = longitude, y = latitude, color = as.factor(cluster_label)), size = 2) +
+  scale_color_discrete(name = "Cluster") +
+  labs(title = "Location Clustering Map")
+```
+
+
+
+```{r}
+map("world", fill = TRUE, col = "white", bg = "lightblue", xlim = c(-122.5, -122.2), ylim = c(47.5, 47.7), resolution = 0)
+
+#This functions, but all points plotted as same color
+#points(coordinates0$longitude, coordinates0$latitude, col = "black", bg = "red", pch = 21)
+
+#makes set of colors for each cluster
+num_clusters <- length(unique(coordinates0$clusterLabel))
+colors <- rainbow(num_clusters)
+
+points(coordinates0$longitude, coordinates0$latitude, col = "black", bg = colors[coordinates0$clusterLabel], pch = 21)
+
+#plots all points
+#for (cluster_id in unique(coordinates0$clusterLabel)) {
+#  cluster_data <- subset(coordinates0, clusterLabel == cluster_id)
+#  points(cluster_data$longitude, cluster_data$latitude, col = colors[cluster_id], bg = #colors[cluster_id], pch = 21)
+#}
+
+#for(cluster_id in unique(coordinates0$clusterLabel)) {
+#  clusterData <- subset(coordinates0, clusterLabel == cluster_id)
+#  points(clusterData$longitude, clusterData$latitude, col = #rainbow(length(unique(coordinates0$clusterLabel)))[cluster_id], pch = #20)
+#}
+```
+
+
+
+NOT WORKING...
+
+```{r}
+#map("world", fill = TRUE, col = "white", bg = "lightblue", xlim = range(coordinates0$longitude), ylim = range(coordinates0$latitude))
+
+
+#for(cluster_id in unique(coordinates0$clusterLabel)) {
+#  clusterData <- subset(coordinates0, clusterLabel == cluster_id)
+#  points(clusterData$longitude, clusterData$latitude, col = #rainbow(length(unique(coordinates0$clusterLabel)))[cluster_id], pch = 20)
+#}
+
+world <- map_data("world")
+
+map_plot <- ggplot() +
+  geom_polygon(data = world, aes(x = long, y = lat, group = group), fill = "lightblue", color = "white") +
+  theme_void()
+
+points_plot <- map_plot +
+  geom_point(data = coordinates0, aes(x = longitude, y = latitude, color = clusterLabel), size = 2) +
+  scale_color_discrete(name = "Cluster") +
+  labs(title = "HDBSCAN Clustering with mapproj and ggplot2")
+
+print(points_plot)
+```
+
+```{r}
+write.csv(newFiltered0, "CleanData/FilteredData0.csv", row.names = FALSE)
 ```
