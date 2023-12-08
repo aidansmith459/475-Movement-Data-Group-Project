@@ -14620,7 +14620,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[101]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[115]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># import libraries needed</span>
@@ -14641,7 +14641,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[102]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[116]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># load data</span>
@@ -14694,7 +14694,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[103]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[117]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># let&#39;s start off with just the first day of data</span>
@@ -14756,18 +14756,36 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[104]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[118]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># round to 4 decimal places</span>
-<span class="n">rounded_df</span> <span class="o">=</span> <span class="n">first_day</span><span class="p">[[</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">rounded_df</span><span class="p">[[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span><span class="s2">&quot;date&quot;</span><span class="p">,</span><span class="s2">&quot;time&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">first_day</span><span class="p">[[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span><span class="s2">&quot;date&quot;</span><span class="p">,</span><span class="s2">&quot;time&quot;</span><span class="p">]]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">rounded_df</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">filter_travel_points</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">freq</span><span class="p">):</span>
+    <span class="c1"># round to 4 decimal places</span>
+    <span class="n">rounded_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">rounded_df</span><span class="p">[[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span><span class="s2">&quot;date&quot;</span><span class="p">,</span><span class="s2">&quot;time&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span><span class="s2">&quot;date&quot;</span><span class="p">,</span><span class="s2">&quot;time&quot;</span><span class="p">]]</span>
+
+    <span class="c1"># group by (latitude,longitude) points to see most visited streets/parcels of land of about 11m in distance</span>
+    <span class="n">grouped_df</span> <span class="o">=</span> <span class="n">rounded_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># keep only the points with occurrence &gt; freq</span>
+    <span class="n">filtered_df</span> <span class="o">=</span> <span class="n">grouped_df</span><span class="p">[</span><span class="n">grouped_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="n">freq</span><span class="p">]</span>
+
+    <span class="c1"># merge filtered with rounded</span>
+    <span class="n">merged1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">rounded_df</span><span class="p">,</span> <span class="n">filtered_df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span><span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
+    <span class="c1"># remove unnecessary columns</span>
+    <span class="n">merged1</span> <span class="o">=</span> <span class="n">merged1</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;id_x&quot;</span><span class="p">,</span> <span class="s2">&quot;id_y&quot;</span><span class="p">,</span><span class="s2">&quot;date_y&quot;</span><span class="p">,</span> <span class="s2">&quot;time_y&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># merge original df with filtered to keep only the points with occurrence &gt; 5</span>
+    <span class="n">merged2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">merged1</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;date_x&quot;</span><span class="p">,</span><span class="s2">&quot;time_x&quot;</span><span class="p">])</span>
+    <span class="c1"># remove unnecessary columns (repeats)</span>
+    <span class="n">merged2</span> <span class="o">=</span> <span class="n">merged2</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;date_x&quot;</span><span class="p">,</span> <span class="s2">&quot;time_x&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">merged2</span>
 </pre></div>
 
      </div>
@@ -14775,114 +14793,16 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 </div>
 
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>      longitude  latitude    id        date      time
-0     -122.3352   47.6080  I000  2020-01-01  00:00:00
-1     -122.3352   47.6080  I000  2020-01-01  00:01:07
-2     -122.3352   47.6086  I000  2020-01-01  00:02:30
-3     -122.3352   47.6085  I000  2020-01-01  00:03:40
-4     -122.3352   47.6076  I000  2020-01-01  00:05:07
-...         ...       ...   ...         ...       ...
-1442  -122.3818   47.5437  I000  2020-01-01  23:55:41
-1443  -122.3818   47.5431  I000  2020-01-01  23:56:38
-1444  -122.3818   47.5437  I000  2020-01-01  23:57:26
-1445  -122.3818   47.5437  I000  2020-01-01  23:58:39
-1446  -122.3818   47.5433  I000  2020-01-01  23:59:29
-
-[1447 rows x 5 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[105]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[140]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># group by (latitude,longitude) points to see most visited streets/parcels of land of about 11m in distance</span>
-<span class="n">groups</span> <span class="o">=</span> <span class="n">rounded_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">groups</span><span class="p">[</span><span class="n">groups</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">5</span><span class="p">])</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>     longitude  latitude  id  date  time
-0    -122.4359   47.6175   1     1     1
-289  -122.3179   47.5898   1     1     1
-285  -122.3201   47.5662   1     1     1
-283  -122.3201   47.5660   1     1     1
-282  -122.3201   47.5659   1     1     1
-..         ...       ...  ..   ...   ...
-497  -122.2835   47.6630   5     5     5
-462  -122.2994   47.5876   5     5     5
-521  -122.2828   47.6440   5     5     5
-475  -122.2835   47.6607   5     5     5
-276  -122.3201   47.5651   5     5     5
-
-[540 rows x 5 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p> 540 points that show up less than 6 times. </p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[106]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># keep only the points with occurrence &gt; 5</span>
-<span class="n">filtered_df</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="n">groups</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">5</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># filter df and check results</span>
+<span class="n">filtered_df</span> <span class="o">=</span> <span class="n">filter_travel_points</span><span class="p">(</span><span class="n">first_day</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">filtered_df</span><span class="p">)</span>
 </pre></div>
 
@@ -14903,377 +14823,22 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>     longitude  latitude  id  date  time
-401  -122.3068   47.5712   6     6     6
-272  -122.3201   47.5647   6     6     6
-327  -122.3164   47.6142   6     6     6
-436  -122.3028   47.6034   6     6     6
-522  -122.2828   47.6441   6     6     6
-274  -122.3201   47.5649   6     6     6
-476  -122.2835   47.6608   6     6     6
-266  -122.3201   47.5641   6     6     6
-268  -122.3201   47.5643   6     6     6
-562  -122.2725   47.6494   6     6     6
-311  -122.3164   47.6120   6     6     6
-230  -122.3270   47.5441   6     6     6
-233  -122.3270   47.5444   6     6     6
-451  -122.2994   47.5859   6     6     6
-357  -122.3164   47.6190   6     6     6
-186  -122.3352   47.6067   6     6     6
-267  -122.3201   47.5642   6     6     6
-399  -122.3068   47.5710   6     6     6
-255  -122.3201   47.5630   6     6     6
-373  -122.3107   47.6244   6     6     6
-457  -122.2994   47.5866   6     6     6
-372  -122.3107   47.6243   6     6     6
-208  -122.3335   47.6706   6     6     6
-329  -122.3164   47.6144   6     6     6
-454  -122.2994   47.5863   7     7     7
-96   -122.3747   47.5941   7     7     7
-356  -122.3164   47.6189   7     7     7
-231  -122.3270   47.5442   7     7     7
-257  -122.3201   47.5632   7     7     7
-552  -122.2725   47.6484   7     7     7
-434  -122.3028   47.6032   7     7     7
-447  -122.2994   47.5855   7     7     7
-332  -122.3164   47.6147   8     8     8
-262  -122.3201   47.5637   8     8     8
-206  -122.3335   47.6704   8     8     8
-50   -122.4015   47.6105   8     8     8
-271  -122.3201   47.5646   8     8     8
-553  -122.2725   47.6485   8     8     8
-559  -122.2725   47.6491   9     9     9
-435  -122.3028   47.6033   9     9     9
-433  -122.3028   47.6031  10    10    10
-92   -122.3747   47.5937  10    10    10
-431  -122.3028   47.6029  13    13    13
+<pre>      id   longitude   latitude        date      time
+0   I000 -122.374718  47.593698  2020-01-01  00:38:02
+1   I000 -122.374718  47.593727  2020-01-01  00:38:42
+2   I000 -122.374718  47.593698  2020-01-01  02:13:39
+3   I000 -122.333503  47.670401  2020-01-01  05:37:20
+4   I000 -122.316386  47.614720  2020-01-01  08:16:50
+..   ...         ...        ...         ...       ...
+94  I000 -122.333502  47.670388  2020-01-01  23:13:09
+95  I000 -122.333503  47.670426  2020-01-01  23:13:45
+96  I000 -122.333503  47.670419  2020-01-01  23:16:22
+97  I000 -122.333503  47.670392  2020-01-01  23:17:02
+98  I000 -122.333503  47.670391  2020-01-01  23:17:45
+
+[99 rows x 5 columns]
 </pre>
 </div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[107]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># merge filtered with rounded</span>
-<span class="n">merged1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">rounded_df</span><span class="p">,</span> <span class="n">filtered_df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span><span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
-<span class="n">merged1</span> <span class="o">=</span> <span class="n">merged1</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;id_x&quot;</span><span class="p">,</span> <span class="s2">&quot;id_y&quot;</span><span class="p">,</span><span class="s2">&quot;date_y&quot;</span><span class="p">,</span> <span class="s2">&quot;time_y&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">merged1</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>         date_x    time_x
-0    2020-01-01  00:15:18
-1    2020-01-01  00:15:55
-2    2020-01-01  00:18:22
-3    2020-01-01  00:18:59
-4    2020-01-01  00:20:52
-..          ...       ...
-294  2020-01-01  22:22:42
-295  2020-01-01  22:30:13
-296  2020-01-01  22:33:17
-297  2020-01-01  22:35:45
-298  2020-01-01  22:48:10
-
-[299 rows x 2 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[108]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># merge first day with filtered to keep only the points with occurrence &gt; 5</span>
-<span class="n">merged2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">first_day</span><span class="p">,</span> <span class="n">merged1</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;date_x&quot;</span><span class="p">,</span><span class="s2">&quot;time_x&quot;</span><span class="p">])</span>
-<span class="n">merged2</span> <span class="o">=</span> <span class="n">merged2</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;date_x&quot;</span><span class="p">,</span> <span class="s2">&quot;time_x&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">merged2</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>       id   longitude   latitude        date      time
-0    I000 -122.335171  47.606657  2020-01-01  00:15:18
-1    I000 -122.335170  47.606670  2020-01-01  00:15:55
-2    I000 -122.335170  47.606690  2020-01-01  00:18:22
-3    I000 -122.335170  47.606689  2020-01-01  00:18:59
-4    I000 -122.335170  47.606662  2020-01-01  00:20:52
-..    ...         ...        ...         ...       ...
-294  I000 -122.333503  47.670419  2020-01-01  23:16:22
-295  I000 -122.333503  47.670392  2020-01-01  23:17:02
-296  I000 -122.333503  47.670391  2020-01-01  23:17:45
-297  I000 -122.333502  47.670631  2020-01-01  23:25:42
-298  I000 -122.333502  47.670628  2020-01-01  23:30:10
-
-[299 rows x 5 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[109]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">merged2</span><span class="p">[[</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">]])</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>      longitude   latitude
-0   -122.335171  47.606657
-1   -122.335170  47.606670
-2   -122.335170  47.606690
-3   -122.335170  47.606689
-4   -122.335170  47.606662
-..          ...        ...
-294 -122.333503  47.670419
-295 -122.333503  47.670392
-296 -122.333503  47.670391
-297 -122.333502  47.670631
-298 -122.333502  47.670628
-
-[299 rows x 2 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[110]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
-<span class="n">points</span> <span class="o">=</span> <span class="n">merged2</span><span class="p">[[</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">]]</span>
-<span class="n">scaled_df</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-
-<span class="c1"># create clusterer</span>
-<span class="n">clusterer</span> <span class="o">=</span> <span class="n">hdbscan</span><span class="o">.</span><span class="n">HDBSCAN</span><span class="p">(</span><span class="n">min_cluster_size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-<span class="c1"># labels assigns each point to a cluster</span>
-<span class="n">labels</span> <span class="o">=</span> <span class="n">clusterer</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">scaled_df</span><span class="p">)</span>
-
-<span class="c1"># add the clusters to the df</span>
-<span class="n">merged2</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">merged2</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>       id   longitude   latitude        date      time  cluster
-0    I000 -122.335171  47.606657  2020-01-01  00:15:18       -1
-1    I000 -122.335170  47.606670  2020-01-01  00:15:55       -1
-2    I000 -122.335170  47.606690  2020-01-01  00:18:22       -1
-3    I000 -122.335170  47.606689  2020-01-01  00:18:59       -1
-4    I000 -122.335170  47.606662  2020-01-01  00:20:52       -1
-..    ...         ...        ...         ...       ...      ...
-294  I000 -122.333503  47.670419  2020-01-01  23:16:22       -1
-295  I000 -122.333503  47.670392  2020-01-01  23:17:02       -1
-296  I000 -122.333503  47.670391  2020-01-01  23:17:45       -1
-297  I000 -122.333502  47.670631  2020-01-01  23:25:42       -1
-298  I000 -122.333502  47.670628  2020-01-01  23:30:10       -1
-
-[299 rows x 6 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[111]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># see how many points are per cluster</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">merged2</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;cluster&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">())</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>   cluster  id  longitude  latitude  date  time
-0       -1  32         32        32    32    32
-1        0  25         25        25    25    25
-2        1  42         42        42    42    42
-3        2  19         19        19    19    19
-4        3  51         51        51    51    51
-5        4  59         59        59    59    59
-6        5  45         45        45    45    45
-7        6  26         26        26    26    26
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[113]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># visualize clusters</span>
-<span class="n">color_palette</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;deep&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-<span class="n">cluster_colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">color_palette</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span>
-                  <span class="k">else</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
-                  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
-<span class="n">cluster_member_colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">sns</span><span class="o">.</span><span class="n">desaturate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span>
-                         <span class="nb">zip</span><span class="p">(</span><span class="n">cluster_colors</span><span class="p">,</span> <span class="n">clusterer</span><span class="o">.</span><span class="n">probabilities_</span><span class="p">)]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">cluster_member_colors</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[113]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&lt;matplotlib.collections.PathCollection at 0x162ddf036d0&gt;</pre>
-</div>
-
-</div>
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-
-
-<div class="jp-RenderedImage jp-OutputArea-output ">
-<img src="data:image/png;base64,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PerZlpCQoNTUVP31r3/VyZMnVVNToyVLligpKUmDBg3yOV5lZaVcLpfXAgAArMvvm++tWLFCW7du1ZYtWxqszc3NVXp6ujIzM+uty8rK0nXXXaeLLrpI+/bt069//WuNHz9emzdvls1mk2EY+sc//qFrr71WsbGxCgsLU1JSktatW+d1ROdsOTk5mj9/vr+7BwAAWijDNE2zscXFxcUaPHiw3nnnHc+1NFdddZUGDBigJ554wqu2oqJCHTt21AMPPKD/+I//8Kupzz//XD179tQ//vEPjR49WqZp6tprr1V1dbXuv/9+RUVF6c9//rNef/11bdmyRR07djxnjMrKSlVWVnq+drlcSklJUWlpqeLi4vzqBwAABIfL5ZLT6WzU+7dfp5/y8vJUUlKijIwM2e122e12bdy4UU8++aTsdrtqa2s9tatWrVJ5ebmmTZvm9w706NFD7du3V1FRkSRp/fr1evPNN7VixQpdfvnlysjI0DPPPKOoqCi98MILPsdwOByKi4vzWgAAgHX5dfpp9OjRKigo8Fo3ffp0paWlae7cubLZbJ71ubm5mjRpkhITE/1u6quvvtLRo0c9R2DKy8slSWFh3hksLCxMbrfb7/EBAID1+HWkJjY2Vn379vVaoqOjlZCQoL59+3rqioqKtGnTJv30pz/1OU5aWppWr14t6fQnqebMmaN//etf2r9/v959911NnjxZvXr10rhx4yRJw4YNU3x8vG655RZt27ZNe/fu1Zw5c/TFF19owoQJTd13AABgIc1yR+GlS5eqS5cuGjt2rM/thYWFKi0tlXT6Y+Dbt2/XpEmT1Lt3b82YMUODBg3S+++/L4fDIUlq37691q1bp7KyMo0aNUqDBw/WBx98oP/5n//RpZde2hy7AAAAWhi/LhRuyfy50AgAAISGZrtQGAAAIFQRagAAgCUQagAAgCUQagAAgCUQagAAgCUQagAAgCUQagAAgCUQagAAgCUQagAAgCUQagAAgCUQagAAgCXYg90AAMDa3G63duzYocOHDyssLEy9e/dWSkpKsNuCBRFqAADNprCwUG+99ZZOnjwpt9stwzD08ccfKzExUTfddJNiYmKC3SIshNNPAIBm8eWXX+rVV1/ViRMn5Ha7JUmmaaqmpkZff/21/vKXv6i2tjbIXcJKCDUAgGbx1ltvqaamxuc20zR1/PhxffDB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LV++XNdee622bt16zlPUL7RgzUt4eLimTZumjIwMtW3bVtu2bdNtt90mt9utRx55RJK0fPly3XfffVq6dKkyMzO1d+9e3XrrrTIMQ//1X//VfJOi0J6XqqoqXX311UpKStKqVavUuXNnffnllz5fIC+kUJ6TM/bv369f/epXuuKKKy78BNQhlOdlw4YNuvnmm5WZmanIyEg9+uijGjt2rHbu3KnOnTs336QotOelNb7mfvjhh+rfv7/mzp2rDh066M0339S0adPkdDo1ceJEScF9za2TiXo9//zzptPpbFTtL37xC3PkyJH11vTp08ecP39+g2Pde++95o9//GOfP3/KlCnmhAkTvNYNHTrU/PnPf96oPi+EYM3L2WbPnm0OHz7c8/XMmTPNUaNGedXcc8895uWXX+7XuOcjFOfl//2//2f26NHDrKqq8mucCyUU58Q0TbOmpsbMzMw0//znP5u33HKLOXnyZL/GPF+hOi9nq6mpMWNjY80XXnjBr3HPRyjOC6+5p11zzTXm9OnTPV+Hwmvu93H66QIqLS1Vu3bt6tzudrt14sSJemskaf369Vq5cqWefvppn9s3b96sMWPGeK0bN26cNm/e7H/TAXCh5uVsRUVFWrduna688krPuszMTOXl5XkOl3/++edau3atrrnmmqY334wCNS+vv/66hg0bppkzZ6pDhw7q27evHnnkEdXW1p5X/80hUHMiSb/97W+VlJSkGTNmNLnfQAnkvJytvLxc1dXVfo0bSIGaF15zfY8bkq+5QYtTLURj0/E///lP0263m3//+9/rrHn00UfN+Ph48/Dhw3XWHDlyxExJSTE3btxY588PDw83ly9f7rXu6aefNpOSkhrs80IJ9LycMWzYMNPhcJiSzJ/97GdmbW2t1/Y//vGPZnh4uGm3201J5u23397gmBdSKM5Lamqq6XA4zH//9383P/nkE3PFihVmu3btzIceeqhR+3S+QnFO3n//fbNz587mN998Y5qmGdJHagL9Z+hsd9xxh9mjRw+zoqKiwXEvlFCcl9b8mnvGyy+/bEZERJg7duzwWh/s19zva1WhZu7cuaakepfdu3d7fU9jfpEKCgrM9u3bmw8//HCdNcuWLTPbtGljvvPOO/WOlZ2dbc6dO7fen3+h/4C1hHk548CBA+bOnTvN5cuXm507dzYfffRRz7b33nvP7NChg/ncc8+Z27dvN1999VUzJSXF/O1vf9uosb/PKvNy8cUXmykpKWZNTY1n3R/+8AczOTm5UWOfzQpz4nK5zO7du5tr16711J5vqLHCvHxfTk6OGR8fb27btq1R4/pilXlpza+5pmma69evN9u0aXPOacgL/Zp7IbSqUFNSUmLu3r273qWystLrexr6Rdq5c6eZlJRk/vrXv66z5m9/+5sZFRVlvvnmmw326HQ6TZvN5lnCwsJMSabNZjNzc3NN0zTNlJQU8/HHH/f6vv/8z/80+/fv3+D4vrSEefHlxRdfNKOiojxv1sOHDzd/9atf+ayp72+jdbHKvIwYMcIcPXq0V83atWtNSef03xArzMmnn37q+TN1ZjEMwzQMw7TZbGZRUZHf41thXs62aNEi0+l0mlu2bGnSuGdYZV5a82vuhg0bzOjoaHPJkiXnbLvQr7kXQqsKNU1R3y/Sjh07zKSkJHPOnDl1fv/y5cvNyMhI87XXXmvUz9u1a5dZUFDgWRYsWGDGxsaaBQUF5rFjx0zTPH3R2sSJE72+b9iwYSFz0VpzzIsvL7zwgmm32z0XwGZkZJj33nvvOT/H14t2cwnFeZk3b57ZrVs3rxeZJ554wuzYsWOTf4Y/Qm1OKioqvP6MFRQUmJMnTzZHjRplFhQU+B30mirU5uWMRx991IyLizM3b97c5HHPRyjOS2t9zX3vvffM6Oho86mnnvK5PRRec7+PUFOHL7/80vz000/N+fPnmzExMeann35qfvrpp+aJEydM0zx9mC8xMdH88Y9/bB46dMizlJSUeMZYtmyZabfbzaefftqr5vjx456aP/3pT+dcPX42X7/IZ86ZPvbYY+bu3bvNBx980AwPDzcLCgou7CT4EKx5eemll8yXX37Z3LVrl7lv3z7z5ZdfNjt16mROnTrVU/Pggw+asbGx5t/+9jfz888/N99++22zZ8+e5pQpU1r1vBw4cMCMjY0177zzTrOwsNB88803zaSkJHPBggWtdk6+L5DX1ITyvCxcuNCMiIgwV61a5TXumd5a67y0xtfcM6ec5s2b5/U9R48e9dQE8zW3LoSaOtxyyy0+z3O+9957pmme/p/pa3u3bt08Y1x55ZU+a2655RZPzYMPPuj1Pd9XVzr/7//+b7N3795mRESEeckll5hr1qy5MDvegGDNy4oVK8yMjAwzJibGjI6ONvv06WM+8sgjXhcwVldXmw899JDZs2dPMzIy0kxJSTF/8YtfmN9++23zTooZ2vNimqb54YcfmkOHDjUdDofZo0cP83e/+12z/00q1Ofk+70GKtSE8rx069bN57gPPvhg806KGdrzYpqt7zW3rp975ZVXemqC+ZpbF8M0TVMAAAAtHPepAQAAlkCoAQAAlkCoAQAAlkCoAQAAlkCoAQAAlkCoAQAAlkCoAQAAlkCoAQAAlkCoAQAAlkCoAQAAlkCoAQAAlkCoAQAAlvD/AaOGSRpUUYHwAAAAAElFTkSuQmCC"
-class="
-"
->
-</div>
-
 </div>
 
 </div>
@@ -15285,7 +14850,405 @@ class="
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[141]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># save filtered data to csv</span>
+<span class="n">filtered_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./FilteredData/round_filtered_0.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[142]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create clusterer</span>
+<span class="n">clusterer</span> <span class="o">=</span> <span class="n">hdbscan</span><span class="o">.</span><span class="n">HDBSCAN</span><span class="p">(</span><span class="n">min_cluster_size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[143]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_clusters</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">]]</span>
+    <span class="n">scaled_df</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+
+    <span class="c1"># labels assigns each point to a cluster</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">clusterer</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">scaled_df</span><span class="p">)</span>
+
+    <span class="c1"># add the clusters to the df</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">df</span>
+    <span class="n">result</span><span class="p">[</span><span class="s2">&quot;cluster_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[144]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create clusters from filtered data</span>
+<span class="n">cluster_df</span> <span class="o">=</span> <span class="n">create_clusters</span><span class="p">(</span><span class="n">filtered_df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cluster_df</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>      id   longitude   latitude        date      time  cluster_label
+0   I000 -122.374718  47.593698  2020-01-01  00:38:02              0
+1   I000 -122.374718  47.593727  2020-01-01  00:38:42              0
+2   I000 -122.374718  47.593698  2020-01-01  02:13:39              0
+3   I000 -122.333503  47.670401  2020-01-01  05:37:20             -1
+4   I000 -122.316386  47.614720  2020-01-01  08:16:50              3
+..   ...         ...        ...         ...       ...            ...
+94  I000 -122.333502  47.670388  2020-01-01  23:13:09             -1
+95  I000 -122.333503  47.670426  2020-01-01  23:13:45             -1
+96  I000 -122.333503  47.670419  2020-01-01  23:16:22             -1
+97  I000 -122.333503  47.670392  2020-01-01  23:17:02             -1
+98  I000 -122.333503  47.670391  2020-01-01  23:17:45             -1
+
+[99 rows x 6 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3> List each cluster with the number of points found in it </h3>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[145]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># see how many points are per cluster</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cluster_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;cluster_label&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>   cluster_label  id  longitude  latitude  date  time
+0             -1   8          8         8     8     8
+3              2  16         16        16    16    16
+2              1  17         17        17    17    17
+1              0  18         18        18    18    18
+4              3  40         40        40    40    40
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3> <b>Next Step:</b> Produce a mappable output supported by Mapbox (our visualization tool) </h3>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[146]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create function to turn a df to a geojson dictionary</span>
+
+<span class="k">def</span> <span class="nf">df_to_geojson</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">geojson</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;FeatureCollection&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">[]</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">feature</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]},</span>
+            <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Point&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">geojson</span><span class="p">[</span><span class="s2">&quot;features&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">geojson</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[147]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+
+<span class="c1"># create function to write geojson dict to a file</span>
+<span class="k">def</span> <span class="nf">write_to_geojson</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">geojson</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">geojson</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finished writing geojson dict to &quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[148]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create geojson dict for cluster for rounding method used in this file</span>
+<span class="n">round_geojson</span> <span class="o">=</span> <span class="n">df_to_geojson</span><span class="p">(</span><span class="n">cluster_df</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">round_geojson</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>{&#39;type&#39;: &#39;FeatureCollection&#39;, &#39;features&#39;: [{&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;00:38:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;00:38:42&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471821899534, 47.593726805143966]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;02:13:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;05:37:20&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350285844485, 47.67040083251598]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:16:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638586427368, 47.61471983382876]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:20:30&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638923215534, 47.61467077255274]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:24:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639071044724, 47.61471013714015]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:26:49&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3163900709384, 47.61467909249115]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:27:20&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639035718004, 47.61472584809193]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:31:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639059492724, 47.614691949721866]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:32:06&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3163907305514, 47.61468106532683]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:33:17&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639070976242, 47.614721555369016]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:37:17&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253111858867, 47.64854971464861]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:39:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253171003557, 47.64854630059344]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:43:11&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253268039946, 47.64849006701754]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:44:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725324061743, 47.64845241685952]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:48:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253299948804, 47.64905751502797]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:53:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725329469028, 47.64908832419211]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:55:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253320271218, 47.64907819258535]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:01:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253465384892, 47.649135233865934]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:06:18&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253394721336, 47.64913901906394]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:09:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253589414956, 47.64847447422903]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:11:07&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253607979716, 47.64852070838224]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:11:53&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725361028785, 47.64851680493896]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:15:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253555288156, 47.64909971075337]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:33:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253640080372, 47.64846485528149]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:55:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014707239072, 47.56459651000617]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:00:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201477466987, 47.56367960407216]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:03:12&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014723357872, 47.56456520916576]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:04:41&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014704418005, 47.56463543003539]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:10:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014432271902, 47.5646003238761]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:11:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014423387976, 47.56459011141625]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:19:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014754421267, 47.56459278694467]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:21:36&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201468421407, 47.563663044291246]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:07:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014700457296, 47.56370921977015]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:08:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014713517454, 47.56366947582438]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:09:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014712930288, 47.563692965578575]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:13:42&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014734327934, 47.56462439839311]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:27:38&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201450502846, 47.56369324252189]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:29:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014538220017, 47.56368669043116]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:30:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014538246295, 47.56368663564251]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:42:46&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014624576853, 47.56459296083211]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:10:20&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:12:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281838995434, 47.60313781992888]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:14:01&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302816894586, 47.60329512702919]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:20:53&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:53:48&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:56:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471757735052, 47.59374468352296]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:03:07&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471782055744, 47.59374475628893]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:08:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:09:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028195907543, 47.60289921241313]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:10:47&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281958640414, 47.60289946734184]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:13:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281983110469, 47.602858652214906]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:20:05&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281639510048, 47.60327326385745]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:20:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281648657424, 47.603278086579216]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:23:47&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281699219708, 47.6028716610583]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:54:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:55:05&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281854205636, 47.60327550935971]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:56:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281807394216, 47.60333353097691]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:56:56&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281808571026, 47.6033298244786]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:01:18&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281902521428, 47.60332911594804]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:03:08&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281930413106, 47.60314043571735]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:07:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028195264424, 47.60294905035706]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:08:38&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302819458113, 47.60294563344134]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:11:01&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028190919388, 47.60291151452793]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:15:08&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:16:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281768179978, 47.60287000292346]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:20:04&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281784576054, 47.60291157655172]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:21:13&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281767468696, 47.602915222948575]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:34:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281913312956, 47.6029214818689]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:33:52&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27252868014426, 47.64906744895435]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:34:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725286918968, 47.649078691254914]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:35:58&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725286846762, 47.64905540882802]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:07:41&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:08:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281854440544, 47.60313954097203]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:09:34&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281855246348, 47.603260054836056]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:26:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:00:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747193214314, 47.59369945660064]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:01:40&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471930669037, 47.59366633100813]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:42:56&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:43:29&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302818817923, 47.60330722712482]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:44:11&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281897916396, 47.60290659951511]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:45:26&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281893455532, 47.60293672945634]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:49:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028204907122, 47.60312002851839]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:51:42&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152048578958, 47.61050213647615]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:59:30&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.4015232088859, 47.610483437443605]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:00:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152266717506, 47.61050592983122]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:02:06&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.4015221797943, 47.61049190294003]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:05:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152123548076, 47.61047346462984]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:06:27&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152197841006, 47.61054206890024]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:07:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152183959994, 47.61050963785864]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:10:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152311753344, 47.61046283740925]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:10:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350285844485, 47.67040083251598]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:11:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350324408376, 47.67036496781615]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:13:09&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350238528456, 47.670387931616126]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:13:45&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3335025253198, 47.67042634368397]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:16:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350250965192, 47.670418854585634]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:17:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350260660788, 47.67039239406618]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:17:45&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3335028229883, 47.67039148862536]}}]}
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[149]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">write_to_geojson</span><span class="p">(</span><span class="s2">&quot;./ClusterResults/round_clusters_0.json&quot;</span><span class="p">,</span> <span class="n">round_geojson</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Finished writing geojson dict to  ./ClusterResults/round_clusters_0.json
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[150]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create geojson dict for cluster for distance method used in R file</span>
+<span class="c1"># First, import the file as a df</span>
+<span class="n">distance_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./FilteredData/distance_filtered_0.csv&quot;</span><span class="p">)</span>
+<span class="c1"># Narrow down data to be the same day as the one we&#39;re doing exploratory analyzis on</span>
+<span class="n">distance_df</span> <span class="o">=</span> <span class="n">distance_df</span><span class="p">[</span><span class="n">distance_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;2020-01-01&quot;</span><span class="p">]</span>
+<span class="c1"># finally, write file</span>
+<span class="n">distance_geojson</span> <span class="o">=</span> <span class="n">df_to_geojson</span><span class="p">(</span><span class="n">distance_df</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">distance_geojson</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>{&#39;type&#39;: &#39;FeatureCollection&#39;, &#39;features&#39;: [{&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;00:06:55&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.335168841746, 47.6072304075468]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;00:11:07&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.335169381394, 47.6070505381334]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;00:19:34&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.335170169724, 47.6066967825694]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;00:57:13&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.374123483911, 47.6097394780268]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;01:43:42&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.317920980697, 47.5918025161772]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;01:53:09&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.317920679773, 47.5912020307864]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;01:58:09&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.357679510203, 47.5921121524283]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;02:33:21&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.322168770314, 47.62295558345]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;03:53:00&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.283528643689, 47.6610557011538]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;03:58:05&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.283527176776, 47.6612831895997]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;04:15:27&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.283525411663, 47.6611329625183]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;04:20:06&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.283524577918, 47.660384753984]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;04:27:21&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.28352402344, 47.6600453076935]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;04:33:00&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.283526778452, 47.6607813547431]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;04:39:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.28352648685, 47.6602972535948]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;04:44:28&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.39810072197, 47.5937911686101]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;05:53:04&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.333501171805, 47.6721253789418]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;05:58:06&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.333502670182, 47.6726611765074]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;06:27:30&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.283530622441, 47.6620460609023]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;06:38:13&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.28353095505, 47.6626585865902]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;06:43:44&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.28353118196, 47.6629587964973]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;06:49:15&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.283531984254, 47.6635103946254]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;06:54:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.283532432681, 47.6635658906205]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;06:59:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.283534794835, 47.6633255919343]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;07:10:29&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.306999703059, 47.6290980892673]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:15:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.316386874711, 47.6146965692988]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:20:30&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.316389749889, 47.6142941139626]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:25:00&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.316390335678, 47.6148614096884]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:30:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.316390450367, 47.614683205808]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:35:27&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.316389809096, 47.6141594077691]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:40:18&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.316389231396, 47.6144071946053]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:45:41&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638920979, 47.6142314727549]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:50:28&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.316389013937, 47.6132511902083]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:10:49&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.316387460262, 47.611873357053]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:16:05&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.316387085661, 47.6123785002407]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:24:09&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.316386645119, 47.6119652602246]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:29:09&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.316386234366, 47.6118854511185]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:34:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.272531127833, 47.6492303786399]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:39:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.272532461072, 47.6485400597911]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:44:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.272532431015, 47.6487211441533]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:49:27&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.272532865938, 47.649332752515]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:54:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.272533665128, 47.6488366455515]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:59:38&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.272534299594, 47.6492364752898]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:08:17&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.272535735037, 47.6487202797352]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:14:01&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.272535777769, 47.6488434875626]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:19:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253551918, 47.6483711929552]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:29:26&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.272536739824, 47.648431436978]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:37:38&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.320149257589, 47.5655666741296]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:52:04&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.320146897095, 47.5648038255667]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:06:26&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.320145046462, 47.5642886303032]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:11:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.320145010779, 47.56463236628]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:17:53&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014705079, 47.5644414521123]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:22:41&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.320147013653, 47.5632382475042]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:29:15&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.320145792717, 47.5625479228573]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:34:10&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.320145354251, 47.5626238369745]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:40:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.320146772457, 47.563850936757]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:45:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.320147176092, 47.5627731010602]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:50:19&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014622757, 47.5624248772081]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:57:55&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014568788, 47.563396554691]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:17:10&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.320147210719, 47.5632992259281]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:22:17&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.320145750289, 47.5629830373634]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:27:38&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.320145420518, 47.5636396188707]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:32:19&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.320145338798, 47.5632196682646]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:37:44&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.320146131669, 47.5639684797097]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:57:52&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.310665084661, 47.6243497776658]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:11:26&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.310664626922, 47.6240472765513]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:16:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.310664072428, 47.6246235730073]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:21:48&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.310664547982, 47.6247291616439]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:27:09&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.310664494514, 47.6242113304046]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:33:00&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.310664812771, 47.6246111919018]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:38:41&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.316387848844, 47.6185090453591]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:53:53&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.301076046753, 47.5888450891017]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:29:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.299372855115, 47.5854084405309]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:34:31&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.299371675617, 47.5858351608596]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:39:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.299371828058, 47.5861804136785]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:44:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.299373237463, 47.5863097229175]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:51:52&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.299373137692, 47.5865185031851]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:56:29&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.331035250792, 47.595474719485]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:08:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302819353455, 47.6029759759727]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:23:47&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302817204513, 47.6026145440476]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:41:19&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30282011311, 47.602234828676]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:54:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302818330488, 47.6032085589944]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:59:09&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281935403, 47.602828066235]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:09:37&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302819383824, 47.6026458345506]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:14:07&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302818250225, 47.6026890990741]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:19:21&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302817802362, 47.6028548764]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:26:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302818741599, 47.6033970439509]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:31:00&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302819192683, 47.6028636388358]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:37:23&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302818018858, 47.6025873083154]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:48:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.358592433613, 47.5843397450559]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:53:55&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.358591474977, 47.5852370138491]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:58:12&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.36181763032, 47.5873541393281]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:31:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.374718308621, 47.594103980201]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:42:31&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.374718097919, 47.59437851341]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:47:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.332459511527, 47.5792314728811]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:11:52&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.326983780286, 47.5440668322801]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:18:04&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.326983984448, 47.5438042352793]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:24:44&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.326984400432, 47.544044603766]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:29:10&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.326984050424, 47.5442052735526]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:50:47&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.401521419723, 47.6102050759556]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:55:28&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.392054859853, 47.6063501694722]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:20:53&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.306847799026, 47.5711539696205]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:25:34&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.306846326542, 47.5715079569843]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:30:13&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30684603174, 47.571140822296]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:35:09&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.306846174223, 47.5708852360886]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:40:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30684611738, 47.5709729125567]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:45:12&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.306846109637, 47.5710380015871]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:50:52&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.306846537587, 47.5711230068538]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:55:31&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.328171407494, 47.6503803061012]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:23:44&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.333502121026, 47.6700598536408]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:28:26&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.348793978657, 47.6778512036741]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:33:59&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.371731514084, 47.6893212344837]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:47:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.371731284167, 47.6893734492231]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:52:23&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.381754508968, 47.5442825133436]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:57:26&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.381754833523, 47.5438492228581]}}]}
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[151]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># write to file</span>
+<span class="n">write_to_geojson</span><span class="p">(</span><span class="s2">&quot;./ClusterResults/distance_clusters_0.json&quot;</span><span class="p">,</span> <span class="n">distance_geojson</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Finished writing geojson dict to  ./ClusterResults/distance_clusters_0.json
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[152]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>jupyter<span class="w"> </span>nbconvert<span class="w"> </span>--to<span class="w"> </span>html<span class="w"> </span>clusterer.ipynb
@@ -15294,6 +15257,28 @@ class="
      </div>
 </div>
 </div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
+<pre>[NbConvertApp] Converting notebook clusterer.ipynb to html
+[NbConvertApp] Writing 677755 bytes to clusterer.html
+</pre>
+</div>
+</div>
+
+</div>
+
 </div>
 
 </div>
