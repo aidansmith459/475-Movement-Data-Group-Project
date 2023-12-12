@@ -34,7 +34,7 @@ movements0 = read.csv("CleanData/movements_0.csv", sep=",", header = TRUE)
 ```{r}
 timeWindow = 15
 
-filteredMovements0 <- movements0 %>%
+prefilteredMovements0 <- movements0 %>%
   mutate(forwardDistance = 
            ifelse(!is.na(lead(date, n=timeWindow)), distHaversine(
              cbind(longitude, latitude),
@@ -48,10 +48,14 @@ filteredMovements0 <- movements0 %>%
              cbind(lag(longitude, n=timeWindow), lag(latitude, n = timeWindow))
            ),
            NA_real_
-           )) %>%
-  filter(forwardDistance < 75 | backwardDistance < 75)
+           ))
+ggplot(prefilteredMovements0, aes(x=forwardDistance)) +
+  geom_histogram(binwidth = 25)
+  
+filteredMovements0 <- prefilteredMovements0 %>% filter(forwardDistance < 75 | backwardDistance < 75)
 ```
 
+# print a graph 
 ```{r}
 #print("hello")
 range(filteredMovements0$forwardDistance, na.rm = TRUE)
@@ -109,6 +113,17 @@ coordinates0 <- newFiltered0 %>%
 c0 <- hdbscan(coordinates0, minPts = 20)
 ```
 
+# perform dbscan on resampled data
+eps is the radius that we search for neighboring points within
+minpts is the minimum number of points to form a cluster
+
+```{r}
+dc0 <- dbscan(coordinates0, eps = 0.001, minPts = 5)
+basicCoordinates <- coordinates0
+basicCoordinates$clusterLabel <- as.factor(dc0$cluster)
+```
+
+
 # add labels to data
 
 ```{r}
@@ -145,8 +160,76 @@ colnames(clusterCoordinates) <- c('longitude', 'latitude', 'samples')
 # plot via leaflet
 
 ```{r}
-coordinates(clusterCoordinates) <- ~longitude+latitude
-leaflet(clusterCoordinates) %>% addMarkers(label = samples) %>% addTiles()
+newClusterCoordinates <- clusterCoordinates
+coordinates(newClusterCoordinates) <- ~longitude+latitude
+```
+```{r}
+leaflet(newClusterCoordinates) %>% addMarkers() %>% addTiles()
+```
+
+for (i in 1:nrow(clusterCoordinates)) {
+  map <- addCircleMarkers(map, 
+                          lng = clusterCoordinates$longitude[i],
+                          lat = clusterCoordinates$latitude[i],
+                          radius = clusterCoordinates$samples[i]/1000.0+1,
+                          color = "blue")
+}
+```{r}
+
+map <- leaflet() %>%
+  setView(lng = mean(clusterCoordinates$longitude), lat = mean(clusterCoordinates$latitude), zoom = 11) %>%
+  addTiles()
+
+for (i in 1:nrow(clusterCoordinates)) {
+  map <- addCircleMarkers(map, 
+                          lng = clusterCoordinates$longitude[i],
+                          lat = clusterCoordinates$latitude[i],
+                          radius = clusterCoordinates$samples[i]^(1/3)/1.5,
+                          color = "blue")
+}
+
+map
+```
+# ---------------------------------------------
+# Simplify dbscan data to one point per cluster
+```{r}
+basicClusterCoordinates = data.frame(longitude=double(), latitude=double(), count=double())
+
+length = length(unique(basicCoordinates$clusterLabel))
+i = 0
+
+while (i < length) {
+  tempCluster = basicCoordinates [basicCoordinates$clusterLabel == i,]
+  
+  tempLat = mean(tempCluster$latitude)
+  tempLong = mean(tempCluster$longitude)
+  num = nrow(tempCluster)
+  
+  i = i + 1
+  
+  basicClusterCoordinates = rbind(basicClusterCoordinates, 
+                             list(tempLong, tempLat, num))
+}
+
+colnames(basicClusterCoordinates) <- c('longitude', 'latitude', 'samples')
+```
+# plot clusters from DBSCAN
+
+```{r}
+
+map <- leaflet() %>%
+  setView(lng = mean(basicClusterCoordinates$longitude), lat = mean(basicClusterCoordinates$latitude), zoom = 11) %>%
+  addTiles()
+
+for (i in 1:nrow(basicClusterCoordinates)) {
+  map <- addCircleMarkers(map, 
+                          lng = basicClusterCoordinates$longitude[i],
+                          lat = basicClusterCoordinates$latitude[i],
+                          radius = basicClusterCoordinates$samples[i]^(1/3)/1.5,
+                          color = "blue")
+}
+
+map
 ```
 
 
@@ -220,3 +303,34 @@ print(points_plot)
 ```{r}
 write.csv(newFiltered0, "CleanData/FilteredData0.csv", row.names = FALSE)
 ```
+
+
+```{r}
+topClusters <- head(clusterCoordinates[order(-clusterCoordinates$samples), ], 30)
+
+topClusters <- topClusters %>% mutate(rank = row_number())
+
+
+
+ggplot(topClusters, aes(x = rank)) + 
+  geom_bar() +
+  labs(title = "Most Common Stay Points", x = "Stay Points", y = "Count of Measurements")
+```
+
+```{r}
+write.csv(topClusters, "TopClusters.csv", row.names = FALSE)
+```
+
+```{r}
+write.csv(clusterCoordinates, "clusterCoordinates.csv", row.names = FALSE)
+```
+
+```{r}
+basicTopClusters <- head(basicClusterCoordinates[order(-basicClusterCoordinates$samples), ], 30)
+
+basicTopClusters <- basicTopClusters %>% mutate(rank = row_number())
+write.csv(basicTopClusters, "basicClusterCoordinates.csv", row.names = FALSE)
+```
+
+
+
