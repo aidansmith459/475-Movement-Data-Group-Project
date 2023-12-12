@@ -14620,14 +14620,14 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[115]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># import libraries needed</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">hdbscan</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="c1"># import matplotlib.pyplot as plt</span>
+<span class="c1"># import seaborn as sns</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
 </pre></div>
 
@@ -14641,7 +14641,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[116]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># load data</span>
@@ -14694,7 +14694,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[117]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># let&#39;s start off with just the first day of data</span>
@@ -14741,6 +14741,416 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 </div>
 
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">second_day</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;2020-01-02&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">second_day</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>        id   longitude   latitude        date      time
+1447  I000 -122.381755  47.543587  2020-01-02  00:00:21
+1448  I000 -122.381755  47.543587  2020-01-02  00:00:00
+1449  I000 -122.381755  47.543594  2020-01-02  00:01:23
+1450  I000 -122.381755  47.543652  2020-01-02  00:02:52
+1451  I000 -122.381755  47.544204  2020-01-02  00:03:41
+...    ...         ...        ...         ...       ...
+2876  I000 -122.426741  47.572280  2020-01-02  23:54:57
+2877  I000 -122.426741  47.572247  2020-01-02  23:56:17
+2878  I000 -122.426740  47.572483  2020-01-02  23:57:43
+2879  I000 -122.426740  47.572447  2020-01-02  23:58:21
+2880  I000 -122.426740  47.572464  2020-01-02  23:59:48
+
+[1434 rows x 5 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">third_day</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;2020-01-03&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">third_day</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>        id   longitude   latitude        date      time
+2881  I000 -122.426741  47.573026  2020-01-03  00:01:10
+2882  I000 -122.426741  47.573026  2020-01-03  00:00:00
+2883  I000 -122.426741  47.573723  2020-01-03  00:01:17
+2884  I000 -122.426741  47.573256  2020-01-03  00:01:58
+2885  I000 -122.426741  47.573261  2020-01-03  00:03:05
+...    ...         ...        ...         ...       ...
+4337  I000 -122.401519  47.610212  2020-01-03  23:54:51
+4338  I000 -122.401518  47.610148  2020-01-03  23:56:20
+4339  I000 -122.426740  47.572239  2020-01-03  23:57:24
+4340  I000 -122.426741  47.572172  2020-01-03  23:58:40
+4341  I000 -122.426741  47.572320  2020-01-03  23:59:54
+
+[1461 rows x 5 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fourth_day</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;2020-01-04&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fourth_day</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>        id   longitude   latitude        date      time
+4342  I000 -122.426741  47.572793  2020-01-04  00:00:49
+4343  I000 -122.426741  47.572793  2020-01-04  00:00:00
+4344  I000 -122.426742  47.572599  2020-01-04  00:01:30
+4345  I000 -122.426742  47.573146  2020-01-04  00:02:59
+4346  I000 -122.426741  47.573272  2020-01-04  00:04:28
+...    ...         ...        ...         ...       ...
+5788  I000 -122.310673  47.624838  2020-01-04  23:56:14
+5789  I000 -122.310673  47.624979  2020-01-04  23:56:50
+5790  I000 -122.310674  47.625107  2020-01-04  23:57:23
+5791  I000 -122.310673  47.624658  2020-01-04  23:58:34
+5792  I000 -122.310674  47.624875  2020-01-04  23:59:47
+
+[1451 rows x 5 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fifth_day</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;2020-01-05&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fifth_day</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>        id   longitude   latitude        date      time
+5793  I000 -122.310674  47.625058  2020-01-05  00:00:29
+5794  I000 -122.310674  47.625058  2020-01-05  00:00:00
+5795  I000 -122.310674  47.625194  2020-01-05  00:00:52
+5796  I000 -122.310674  47.624954  2020-01-05  00:01:40
+5797  I000 -122.310674  47.625466  2020-01-05  00:02:58
+...    ...         ...        ...         ...       ...
+7246  I000 -122.358590  47.583690  2020-01-05  23:55:15
+7247  I000 -122.302819  47.603134  2020-01-05  23:56:38
+7248  I000 -122.302819  47.603109  2020-01-05  23:57:08
+7249  I000 -122.302818  47.603529  2020-01-05  23:57:51
+7250  I000 -122.302817  47.602916  2020-01-05  23:59:17
+
+[1458 rows x 5 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sixth_day</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;2020-01-06&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sixth_day</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>        id   longitude   latitude        date      time
+7251  I000 -122.302817  47.603304  2020-01-06  00:00:31
+7252  I000 -122.302817  47.603304  2020-01-06  00:00:00
+7253  I000 -122.333503  47.670401  2020-01-06  00:00:37
+7254  I000 -122.333503  47.670340  2020-01-06  00:01:46
+7255  I000 -122.333503  47.670437  2020-01-06  00:02:22
+...    ...         ...        ...         ...       ...
+8675  I000 -122.317918  47.592392  2020-01-06  23:56:49
+8676  I000 -122.317918  47.592741  2020-01-06  23:57:29
+8677  I000 -122.317918  47.592082  2020-01-06  23:58:42
+8678  I000 -122.317918  47.591948  2020-01-06  23:59:17
+8679  I000 -122.317918  47.591892  2020-01-06  23:59:54
+
+[1429 rows x 5 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seventh_day</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;2020-01-07&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">seventh_day</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>         id   longitude   latitude        date      time
+8680   I000 -122.317917  47.591709  2020-01-07  00:01:05
+8681   I000 -122.317917  47.591709  2020-01-07  00:00:00
+8682   I000 -122.317919  47.591836  2020-01-07  00:01:13
+8683   I000 -122.317919  47.591838  2020-01-07  00:01:46
+8684   I000 -122.317919  47.592136  2020-01-07  00:02:40
+...     ...         ...        ...         ...       ...
+10130  I000 -122.333503  47.670684  2020-01-07  23:55:44
+10131  I000 -122.333503  47.670778  2020-01-07  23:56:58
+10132  I000 -122.333502  47.670814  2020-01-07  23:57:39
+10133  I000 -122.333502  47.671161  2020-01-07  23:58:16
+10134  I000 -122.333502  47.671214  2020-01-07  23:58:51
+
+[1455 rows x 5 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># let&#39;s create week long sample by concatinating the previously extracted 7 days</span>
+<span class="n">first_week</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">first_day</span><span class="p">,</span> <span class="n">second_day</span><span class="p">,</span> <span class="n">third_day</span><span class="p">,</span> <span class="n">fourth_day</span><span class="p">,</span> <span class="n">fifth_day</span><span class="p">,</span> <span class="n">sixth_day</span><span class="p">,</span> <span class="n">seventh_day</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">first_week</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>         id   longitude   latitude        date      time
+0      I000 -122.335167  47.608013  2020-01-01  00:00:00
+1      I000 -122.335168  47.608002  2020-01-01  00:01:07
+2      I000 -122.335169  47.608598  2020-01-01  00:02:30
+3      I000 -122.335168  47.608501  2020-01-01  00:03:40
+4      I000 -122.335169  47.607648  2020-01-01  00:05:07
+...     ...         ...        ...         ...       ...
+10130  I000 -122.333503  47.670684  2020-01-07  23:55:44
+10131  I000 -122.333503  47.670778  2020-01-07  23:56:58
+10132  I000 -122.333502  47.670814  2020-01-07  23:57:39
+10133  I000 -122.333502  47.671161  2020-01-07  23:58:16
+10134  I000 -122.333502  47.671214  2020-01-07  23:58:51
+
+[10135 rows x 5 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># let&#39;s extract a month long sample from the data</span>
+<span class="n">first_month</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;01&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">first_month</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>         id   longitude   latitude        date      time
+0      I000 -122.335167  47.608013  2020-01-01  00:00:00
+1      I000 -122.335168  47.608002  2020-01-01  00:01:07
+2      I000 -122.335169  47.608598  2020-01-01  00:02:30
+3      I000 -122.335168  47.608501  2020-01-01  00:03:40
+4      I000 -122.335169  47.607648  2020-01-01  00:05:07
+...     ...         ...        ...         ...       ...
+44784  I000 -122.352144  47.601679  2020-01-31  23:53:59
+44785  I000 -122.352144  47.601773  2020-01-31  23:55:10
+44786  I000 -122.310665  47.623651  2020-01-31  23:56:25
+44787  I000 -122.310666  47.624375  2020-01-31  23:57:50
+44788  I000 -122.310665  47.624342  2020-01-31  23:59:01
+
+[44789 rows x 5 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -14761,7 +15171,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[118]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[176]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">filter_travel_points</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">freq</span><span class="p">):</span>
@@ -14798,7 +15208,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[140]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[177]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># filter df and check results</span>
@@ -14823,20 +15233,20 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>      id   longitude   latitude        date      time
-0   I000 -122.374718  47.593698  2020-01-01  00:38:02
-1   I000 -122.374718  47.593727  2020-01-01  00:38:42
-2   I000 -122.374718  47.593698  2020-01-01  02:13:39
-3   I000 -122.333503  47.670401  2020-01-01  05:37:20
-4   I000 -122.316386  47.614720  2020-01-01  08:16:50
-..   ...         ...        ...         ...       ...
-94  I000 -122.333502  47.670388  2020-01-01  23:13:09
-95  I000 -122.333503  47.670426  2020-01-01  23:13:45
-96  I000 -122.333503  47.670419  2020-01-01  23:16:22
-97  I000 -122.333503  47.670392  2020-01-01  23:17:02
-98  I000 -122.333503  47.670391  2020-01-01  23:17:45
+<pre>       id   longitude   latitude        date      time
+0    I000 -122.374718  47.593698  2020-01-01  00:38:02
+1    I000 -122.374718  47.593727  2020-01-01  00:38:42
+2    I000 -122.374718  47.594143  2020-01-01  00:43:52
+3    I000 -122.374718  47.593698  2020-01-01  02:13:39
+4    I000 -122.333503  47.670401  2020-01-01  05:37:20
+..    ...         ...        ...         ...       ...
+150  I000 -122.333502  47.670388  2020-01-01  23:13:09
+151  I000 -122.333503  47.670426  2020-01-01  23:13:45
+152  I000 -122.333503  47.670419  2020-01-01  23:16:22
+153  I000 -122.333503  47.670392  2020-01-01  23:17:02
+154  I000 -122.333503  47.670391  2020-01-01  23:17:45
 
-[99 rows x 5 columns]
+[155 rows x 5 columns]
 </pre>
 </div>
 </div>
@@ -14850,11 +15260,11 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[141]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[178]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># save filtered data to csv</span>
-<span class="n">filtered_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./FilteredData/round_filtered_0.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">filtered_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./FilteredData/day_round_filtered_0.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14867,11 +15277,11 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[142]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[179]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create clusterer</span>
-<span class="n">clusterer</span> <span class="o">=</span> <span class="n">hdbscan</span><span class="o">.</span><span class="n">HDBSCAN</span><span class="p">(</span><span class="n">min_cluster_size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">clusterer</span> <span class="o">=</span> <span class="n">hdbscan</span><span class="o">.</span><span class="n">HDBSCAN</span><span class="p">(</span><span class="n">min_cluster_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14884,7 +15294,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[143]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[180]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_clusters</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
@@ -14912,7 +15322,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[144]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[181]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create clusters from filtered data</span>
@@ -14937,20 +15347,20 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>      id   longitude   latitude        date      time  cluster_label
-0   I000 -122.374718  47.593698  2020-01-01  00:38:02              0
-1   I000 -122.374718  47.593727  2020-01-01  00:38:42              0
-2   I000 -122.374718  47.593698  2020-01-01  02:13:39              0
-3   I000 -122.333503  47.670401  2020-01-01  05:37:20             -1
-4   I000 -122.316386  47.614720  2020-01-01  08:16:50              3
-..   ...         ...        ...         ...       ...            ...
-94  I000 -122.333502  47.670388  2020-01-01  23:13:09             -1
-95  I000 -122.333503  47.670426  2020-01-01  23:13:45             -1
-96  I000 -122.333503  47.670419  2020-01-01  23:16:22             -1
-97  I000 -122.333503  47.670392  2020-01-01  23:17:02             -1
-98  I000 -122.333503  47.670391  2020-01-01  23:17:45             -1
+<pre>       id   longitude   latitude        date      time  cluster_label
+0    I000 -122.374718  47.593698  2020-01-01  00:38:02              0
+1    I000 -122.374718  47.593727  2020-01-01  00:38:42              0
+2    I000 -122.374718  47.594143  2020-01-01  00:43:52              0
+3    I000 -122.374718  47.593698  2020-01-01  02:13:39              0
+4    I000 -122.333503  47.670401  2020-01-01  05:37:20             -1
+..    ...         ...        ...         ...       ...            ...
+150  I000 -122.333502  47.670388  2020-01-01  23:13:09             -1
+151  I000 -122.333503  47.670426  2020-01-01  23:13:45             -1
+152  I000 -122.333503  47.670419  2020-01-01  23:16:22             -1
+153  I000 -122.333503  47.670392  2020-01-01  23:17:02             -1
+154  I000 -122.333503  47.670391  2020-01-01  23:17:45             -1
 
-[99 rows x 6 columns]
+[155 rows x 6 columns]
 </pre>
 </div>
 </div>
@@ -14976,7 +15386,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[145]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[182]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># see how many points are per cluster</span>
@@ -15002,10 +15412,13 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>   cluster_label  id  longitude  latitude  date  time
 0             -1   8          8         8     8     8
-3              2  16         16        16    16    16
-2              1  17         17        17    17    17
-1              0  18         18        18    18    18
-4              3  40         40        40    40    40
+6              5  13         13        13    13    13
+5              4  14         14        14    14    14
+4              3  15         15        15    15    15
+2              1  24         24        24    24    24
+1              0  25         25        25    25    25
+7              6  26         26        26    26    26
+3              2  30         30        30    30    30
 </pre>
 </div>
 </div>
@@ -15031,10 +15444,11 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[146]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[183]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create function to turn a df to a geojson dictionary</span>
+<span class="c1"># reference: https://medium.com/@strateg17/easily-create-geojson-file-from-pandas-data-frame-b114b5c6d770</span>
 
 <span class="k">def</span> <span class="nf">df_to_geojson</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="n">geojson</span> <span class="o">=</span> <span class="p">{</span>
@@ -15066,7 +15480,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[147]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[184]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
@@ -15088,7 +15502,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[148]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[185]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create geojson dict for cluster for rounding method used in this file</span>
@@ -15114,7 +15528,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>{&#39;type&#39;: &#39;FeatureCollection&#39;, &#39;features&#39;: [{&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;00:38:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;00:38:42&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471821899534, 47.593726805143966]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;02:13:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;05:37:20&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350285844485, 47.67040083251598]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:16:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638586427368, 47.61471983382876]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:20:30&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638923215534, 47.61467077255274]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:24:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639071044724, 47.61471013714015]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:26:49&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3163900709384, 47.61467909249115]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:27:20&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639035718004, 47.61472584809193]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:31:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639059492724, 47.614691949721866]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:32:06&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3163907305514, 47.61468106532683]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:33:17&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639070976242, 47.614721555369016]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:37:17&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253111858867, 47.64854971464861]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:39:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253171003557, 47.64854630059344]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:43:11&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253268039946, 47.64849006701754]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:44:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725324061743, 47.64845241685952]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:48:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253299948804, 47.64905751502797]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:53:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725329469028, 47.64908832419211]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:55:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253320271218, 47.64907819258535]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:01:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253465384892, 47.649135233865934]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:06:18&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253394721336, 47.64913901906394]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:09:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253589414956, 47.64847447422903]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:11:07&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253607979716, 47.64852070838224]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:11:53&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725361028785, 47.64851680493896]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:15:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253555288156, 47.64909971075337]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:33:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253640080372, 47.64846485528149]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:55:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014707239072, 47.56459651000617]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:00:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201477466987, 47.56367960407216]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:03:12&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014723357872, 47.56456520916576]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:04:41&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014704418005, 47.56463543003539]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:10:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014432271902, 47.5646003238761]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:11:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014423387976, 47.56459011141625]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:19:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014754421267, 47.56459278694467]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:21:36&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201468421407, 47.563663044291246]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:07:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014700457296, 47.56370921977015]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:08:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014713517454, 47.56366947582438]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:09:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014712930288, 47.563692965578575]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:13:42&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014734327934, 47.56462439839311]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:27:38&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201450502846, 47.56369324252189]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:29:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014538220017, 47.56368669043116]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:30:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014538246295, 47.56368663564251]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:42:46&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014624576853, 47.56459296083211]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:10:20&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:12:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281838995434, 47.60313781992888]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:14:01&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302816894586, 47.60329512702919]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:20:53&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:53:48&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:56:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471757735052, 47.59374468352296]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:03:07&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471782055744, 47.59374475628893]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:08:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:09:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028195907543, 47.60289921241313]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:10:47&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281958640414, 47.60289946734184]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:13:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281983110469, 47.602858652214906]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:20:05&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281639510048, 47.60327326385745]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:20:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281648657424, 47.603278086579216]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:23:47&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281699219708, 47.6028716610583]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:54:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:55:05&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281854205636, 47.60327550935971]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:56:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281807394216, 47.60333353097691]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:56:56&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281808571026, 47.6033298244786]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:01:18&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281902521428, 47.60332911594804]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:03:08&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281930413106, 47.60314043571735]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:07:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028195264424, 47.60294905035706]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:08:38&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302819458113, 47.60294563344134]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:11:01&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028190919388, 47.60291151452793]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:15:08&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:16:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281768179978, 47.60287000292346]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:20:04&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281784576054, 47.60291157655172]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:21:13&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281767468696, 47.602915222948575]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:34:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281913312956, 47.6029214818689]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:33:52&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27252868014426, 47.64906744895435]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:34:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725286918968, 47.649078691254914]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:35:58&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725286846762, 47.64905540882802]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:07:41&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:08:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281854440544, 47.60313954097203]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:09:34&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281855246348, 47.603260054836056]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:26:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:00:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747193214314, 47.59369945660064]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:01:40&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471930669037, 47.59366633100813]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:42:56&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:43:29&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302818817923, 47.60330722712482]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:44:11&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281897916396, 47.60290659951511]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:45:26&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281893455532, 47.60293672945634]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:49:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028204907122, 47.60312002851839]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:51:42&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152048578958, 47.61050213647615]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:59:30&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.4015232088859, 47.610483437443605]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:00:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152266717506, 47.61050592983122]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:02:06&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.4015221797943, 47.61049190294003]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:05:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152123548076, 47.61047346462984]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:06:27&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152197841006, 47.61054206890024]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:07:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152183959994, 47.61050963785864]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:10:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152311753344, 47.61046283740925]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:10:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350285844485, 47.67040083251598]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:11:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350324408376, 47.67036496781615]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:13:09&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350238528456, 47.670387931616126]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:13:45&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3335025253198, 47.67042634368397]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:16:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350250965192, 47.670418854585634]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:17:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350260660788, 47.67039239406618]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:17:45&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3335028229883, 47.67039148862536]}}]}
+<pre>{&#39;type&#39;: &#39;FeatureCollection&#39;, &#39;features&#39;: [{&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;00:38:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;00:38:42&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471821899534, 47.593726805143966]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;00:43:52&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747175079831, 47.59414323842463]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;02:13:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;05:37:20&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350285844485, 47.67040083251598]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;07:39:23&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638671416374, 47.61888538834712]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:16:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638586427368, 47.61471983382876]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:20:30&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638923215534, 47.61467077255274]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:24:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639071044724, 47.61471013714015]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:26:49&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3163900709384, 47.61467909249115]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:27:20&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639035718004, 47.61472584809193]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:31:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639059492724, 47.614691949721866]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:32:06&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3163907305514, 47.61468106532683]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:33:17&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639070976242, 47.614721555369016]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:37:17&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253111858867, 47.64854971464861]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:37:56&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725314102603, 47.64836841187388]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:38:31&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253143582304, 47.64843706001259]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:39:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253171003557, 47.64854630059344]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:43:11&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253268039946, 47.64849006701754]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:44:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725324061743, 47.64845241685952]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:45:15&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725313813993, 47.64843840423497]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:48:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253299948804, 47.64905751502797]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:53:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725329469028, 47.64908832419211]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:55:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253320271218, 47.64907819258535]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:56:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253354039031, 47.64844909747828]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:59:38&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253433741328, 47.64840724468175]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:01:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253465384892, 47.649135233865934]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:06:18&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253394721336, 47.64913901906394]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:09:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253589414956, 47.64847447422903]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:11:07&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253607979716, 47.64852070838224]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:11:53&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725361028785, 47.64851680493896]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:15:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253555288156, 47.64909971075337]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:19:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253551917984, 47.64837119295519]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:33:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253640080372, 47.64846485528149]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:55:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014707239072, 47.56459651000617]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:00:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201477466987, 47.56367960407216]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:03:12&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014723357872, 47.56456520916576]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:04:41&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014704418005, 47.56463543003539]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:10:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014432271902, 47.5646003238761]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:11:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014423387976, 47.56459011141625]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:19:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014754421267, 47.56459278694467]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:21:36&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201468421407, 47.563663044291246]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:37:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201455412003, 47.56321156939088]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:57:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014511793912, 47.563246518405954]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:06:53&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014639224228, 47.563188440657136]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:07:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014700457296, 47.56370921977015]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:08:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014713517454, 47.56366947582438]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:09:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014712930288, 47.563692965578575]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:13:42&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014734327934, 47.56462439839311]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:19:45&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201472905298, 47.56315520335199]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:21:10&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014674169707, 47.563192121926924]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:27:38&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201450502846, 47.56369324252189]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:29:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014538220017, 47.56368669043116]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:30:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014538246295, 47.56368663564251]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:34:41&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014482184957, 47.56317450153203]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:36:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014607010277, 47.56323567749356]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:42:46&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014624576853, 47.56459296083211]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:41:06&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638798396696, 47.61893576695209]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:42:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3163888538327, 47.61888909476972]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:45:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638877444342, 47.61891635709498]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:52:46&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638842954942, 47.61889087114027]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:10:20&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:10:57&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028186335034, 47.603180907205925]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:11:36&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281842086865, 47.60317569533493]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:12:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281838995434, 47.60313781992888]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:14:01&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302816894586, 47.60329512702919]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:15:13&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937560438304, 47.58552784137221]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:24:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937509208276, 47.58546807191935]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:25:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937505731574, 47.585472961447145]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:37:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937149732184, 47.5863323616302]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:39:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937144252396, 47.58630378771417]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:42:01&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937197224812, 47.58634688502946]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:44:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937309744189, 47.58633930632181]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:44:52&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937337748508, 47.58628013951324]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:45:30&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937338316006, 47.58628655168552]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:00:49&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2993736295301, 47.58554630210048]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:20:53&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:27:35&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937560438304, 47.58552784137221]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:36:49&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937531892878, 47.5863009997072]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:53:48&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:56:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471757735052, 47.59374468352296]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:03:07&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471782055744, 47.59374475628893]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:08:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:09:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028195907543, 47.60289921241313]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:10:47&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281958640414, 47.60289946734184]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:13:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281983110469, 47.602858652214906]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:20:05&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281639510048, 47.60327326385745]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:20:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281648657424, 47.603278086579216]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:21:26&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281684891052, 47.60323269502179]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:23:47&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281699219708, 47.6028716610583]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:54:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:55:05&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281854205636, 47.60327550935971]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:56:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281807394216, 47.60333353097691]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:56:56&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281808571026, 47.6033298244786]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:01:18&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281902521428, 47.60332911594804]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:02:18&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281869735516, 47.60315536993503]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:03:08&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281930413106, 47.60314043571735]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:04:19&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30282008126478, 47.6031947369036]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:07:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028195264424, 47.60294905035706]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:08:38&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302819458113, 47.60294563344134]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:11:01&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028190919388, 47.60291151452793]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:15:08&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:16:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281768179978, 47.60287000292346]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:20:04&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281784576054, 47.60291157655172]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:21:13&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281767468696, 47.602915222948575]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:21:58&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028173781334, 47.60324054137436]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:28:10&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281887706676, 47.60323165987548]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:34:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281913312956, 47.6029214818689]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:33:52&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27252868014426, 47.64906744895435]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:34:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725286918968, 47.649078691254914]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:35:58&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725286846762, 47.64905540882802]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:47:49&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725287788332, 47.64841368389624]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:52:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32698462396856, 47.54416223600759]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:00:15&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32698437581855, 47.54424221322679]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:07:41&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:08:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281854440544, 47.60313954097203]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:09:34&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281855246348, 47.603260054836056]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:26:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:28:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747183516916, 47.59413714414968]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:31:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747185345071, 47.59412973320643]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:46:37&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471832240618, 47.594077923477045]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:50:34&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471853072488, 47.59412586559385]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:51:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747188852998, 47.59408745522973]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:55:55&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471906611604, 47.594073904028]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:00:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747193214314, 47.59369945660064]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:01:40&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471930669037, 47.59366633100813]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:42:56&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:43:29&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302818817923, 47.60330722712482]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:44:11&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281897916396, 47.60290659951511]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:45:26&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281893455532, 47.60293672945634]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:49:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028204907122, 47.60312002851839]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:06:06&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32698462396856, 47.54416223600759]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:10:48&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32698461599036, 47.54423357004666]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:19:27&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32698409168228, 47.54415463645047]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:25:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32698466373763, 47.54415346682339]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:41:21&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638810709524, 47.618927832820326]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:48:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638946235594, 47.61890748821646]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:51:42&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152048578958, 47.61050213647615]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:59:30&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.4015232088859, 47.610483437443605]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:00:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152266717506, 47.61050592983122]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:02:06&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.4015221797943, 47.61049190294003]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:05:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152123548076, 47.61047346462984]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:06:27&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152197841006, 47.61054206890024]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:07:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152183959994, 47.61050963785864]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:10:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152311753344, 47.61046283740925]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:57:20&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937560438304, 47.58552784137221]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:58:40&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937560678827, 47.585547440794514]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:59:58&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32698462396856, 47.54416223600759]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:10:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350285844485, 47.67040083251598]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:11:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350324408376, 47.67036496781615]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:13:09&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350238528456, 47.670387931616126]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:13:45&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3335025253198, 47.67042634368397]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:16:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350250965192, 47.670418854585634]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:17:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350260660788, 47.67039239406618]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:17:45&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3335028229883, 47.67039148862536]}}]}
 </pre>
 </div>
 </div>
@@ -15128,10 +15542,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[149]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[186]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">write_to_geojson</span><span class="p">(</span><span class="s2">&quot;./ClusterResults/round_clusters_0.json&quot;</span><span class="p">,</span> <span class="n">round_geojson</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">write_to_geojson</span><span class="p">(</span><span class="s2">&quot;./ClusterResults/day_round_clusters_0.json&quot;</span><span class="p">,</span> <span class="n">round_geojson</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15165,7 +15579,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[150]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[187]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create geojson dict for cluster for distance method used in R file</span>
@@ -15210,11 +15624,11 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[151]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[188]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># write to file</span>
-<span class="n">write_to_geojson</span><span class="p">(</span><span class="s2">&quot;./ClusterResults/distance_clusters_0.json&quot;</span><span class="p">,</span> <span class="n">distance_geojson</span><span class="p">)</span>
+<span class="n">write_to_geojson</span><span class="p">(</span><span class="s2">&quot;./ClusterResults/day_distance_clusters_0.json&quot;</span><span class="p">,</span> <span class="n">distance_geojson</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15248,7 +15662,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[152]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[189]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>jupyter<span class="w"> </span>nbconvert<span class="w"> </span>--to<span class="w"> </span>html<span class="w"> </span>clusterer.ipynb
@@ -15272,7 +15686,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
 <pre>[NbConvertApp] Converting notebook clusterer.ipynb to html
-[NbConvertApp] Writing 677755 bytes to clusterer.html
+[NbConvertApp] Writing 677548 bytes to clusterer.html
 </pre>
 </div>
 </div>
