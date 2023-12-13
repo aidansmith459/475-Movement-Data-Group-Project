@@ -18,5 +18,5 @@ Directiories:
 NOTE: in order to launch the html files in the "Visualization" directory, make sure to use LiveServer in VSCode in order to get around CORS restrictions for loading local files through Mapbox.
 
 
-Naming convention for files: sample_filterMethod_data_Modification_id.ext (i.e. for a file that shows the filter results of a one day sample from user0 using the round method, the file name would be "day_round_filtered_0.csv")
+Naming convention for files: sample_filterMethod_dataModification_id.ext (i.e. for a file that shows the filter results of a one day sample from user0 using the round method, the file name would be "day_round_filtered_0.csv")
 
