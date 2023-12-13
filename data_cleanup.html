@@ -3,7 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>clusterer</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>data_cleanup</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 
 
@@ -14597,34 +14597,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1> Notebook showing the clustering of data id "IOOO" For Three Different Sample Sizes </h1>
-
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3> One day sample will consist of 2020-01-01 </h3>
-<h3> One week sample will consist of data from 2020-01-01 to 2020-01-07</h3>
-<h3> One month sample will consist of January 2020 </h3>
-
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3> Documentation for hdbscan library in python: </h3>
-<a> https://cran.r-project.org/web/packages/dbscan/vignettes/hdbscan.html </a>
+<h1> Cleaning Up Dataset For Clustering <h1>
 
 </div>
 </div>
@@ -14639,10 +14612,6 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># import libraries needed</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">hdbscan</span>
-<span class="c1"># import matplotlib.pyplot as plt</span>
-<span class="c1"># import seaborn as sns</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
 </pre></div>
 
      </div>
@@ -14658,9 +14627,179 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># load data</span>
-<span class="n">user0_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./CleanData/movements_0.csv&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># loading df using pandas</span>
+<span class="n">movement_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../DineOutSynthetic/movements.csv&quot;</span><span class="p">)</span>
 
+<span class="nb">print</span><span class="p">(</span><span class="n">movement_df</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>                    datetime    id   longitude   latitude
+0        2020-01-01 00:00:00  I000 -122.335167  47.608013
+1        2020-01-01 00:01:07  I000 -122.335168  47.608002
+2        2020-01-01 00:02:30  I000 -122.335169  47.608598
+3        2020-01-01 00:03:40  I000 -122.335168  47.608501
+4        2020-01-01 00:05:07  I000 -122.335169  47.607648
+...                      ...   ...         ...        ...
+5260825  2029-12-31 23:56:32  I009 -122.409557  47.594471
+5260826  2029-12-31 23:57:38  I009 -122.409557  47.594432
+5260827  2029-12-31 23:58:09  I009 -122.409557  47.594305
+5260828  2029-12-31 23:59:20  I009 -122.409557  47.594445
+5260829  2030-01-01 00:00:32  I009 -122.409558  47.594986
+
+[5260830 rows x 4 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># split the datetime column into two columns at the space</span>
+<span class="n">movement_df</span><span class="p">[[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">movement_df</span><span class="p">[</span><span class="s2">&quot;datetime&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># remove the datetime column</span>
+<span class="n">movement_df</span> <span class="o">=</span> <span class="n">movement_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;datetime&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">movement_df</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>           id   longitude   latitude        date      time
+0        I000 -122.335167  47.608013  2020-01-01  00:00:00
+1        I000 -122.335168  47.608002  2020-01-01  00:01:07
+2        I000 -122.335169  47.608598  2020-01-01  00:02:30
+3        I000 -122.335168  47.608501  2020-01-01  00:03:40
+4        I000 -122.335169  47.607648  2020-01-01  00:05:07
+...       ...         ...        ...         ...       ...
+5260825  I009 -122.409557  47.594471  2029-12-31  23:56:32
+5260826  I009 -122.409557  47.594432  2029-12-31  23:57:38
+5260827  I009 -122.409557  47.594305  2029-12-31  23:58:09
+5260828  I009 -122.409557  47.594445  2029-12-31  23:59:20
+5260829  I009 -122.409558  47.594986  2030-01-01  00:00:32
+
+[5260830 rows x 5 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># there&#39;s 10 different id&#39;s for data</span>
+<span class="c1"># making the assumption that every id corresponds to a different user, we are going to split the data into each respective user</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">movement_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>      longitude  latitude    date    time
+id                                       
+I000     526488    526488  526488  526488
+I001     526023    526023  526023  526023
+I002     525704    525704  525704  525704
+I003     526046    526046  526046  526046
+I004     526043    526043  526043  526043
+I005     526250    526250  526250  526250
+I006     525990    525990  525990  525990
+I007     526021    526021  526021  526021
+I008     526437    526437  526437  526437
+I009     525828    525828  525828  525828
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p> <b>Findings:</b> There's 10 different users with id from 0-9. <p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># obtain id = I000</span>
+<span class="n">user0_df</span> <span class="o">=</span> <span class="n">movement_df</span><span class="p">[</span><span class="n">movement_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;I000&quot;</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">user0_df</span><span class="p">)</span>
 </pre></div>
 
@@ -14708,165 +14847,12 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># let&#39;s start off with just the first day of data</span>
-<span class="n">first_day</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_day</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>        id   longitude   latitude        date      time
-0     I000 -122.335167  47.608013  2020-01-01  00:00:00
-1     I000 -122.335168  47.608002  2020-01-01  00:01:07
-2     I000 -122.335169  47.608598  2020-01-01  00:02:30
-3     I000 -122.335168  47.608501  2020-01-01  00:03:40
-4     I000 -122.335169  47.607648  2020-01-01  00:05:07
-...    ...         ...        ...         ...       ...
-1442  I000 -122.381754  47.543701  2020-01-01  23:55:41
-1443  I000 -122.381754  47.543135  2020-01-01  23:56:38
-1444  I000 -122.381754  47.543680  2020-01-01  23:57:26
-1445  I000 -122.381754  47.543708  2020-01-01  23:58:39
-1446  I000 -122.381755  47.543255  2020-01-01  23:59:29
-
-[1447 rows x 5 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">second_day</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;2020-01-02&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">second_day</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>        id   longitude   latitude        date      time
-1447  I000 -122.381755  47.543587  2020-01-02  00:00:21
-1448  I000 -122.381755  47.543587  2020-01-02  00:00:00
-1449  I000 -122.381755  47.543594  2020-01-02  00:01:23
-1450  I000 -122.381755  47.543652  2020-01-02  00:02:52
-1451  I000 -122.381755  47.544204  2020-01-02  00:03:41
-...    ...         ...        ...         ...       ...
-2876  I000 -122.426741  47.572280  2020-01-02  23:54:57
-2877  I000 -122.426741  47.572247  2020-01-02  23:56:17
-2878  I000 -122.426740  47.572483  2020-01-02  23:57:43
-2879  I000 -122.426740  47.572447  2020-01-02  23:58:21
-2880  I000 -122.426740  47.572464  2020-01-02  23:59:48
-
-[1434 rows x 5 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">third_day</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;2020-01-03&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">third_day</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>        id   longitude   latitude        date      time
-2881  I000 -122.426741  47.573026  2020-01-03  00:01:10
-2882  I000 -122.426741  47.573026  2020-01-03  00:00:00
-2883  I000 -122.426741  47.573723  2020-01-03  00:01:17
-2884  I000 -122.426741  47.573256  2020-01-03  00:01:58
-2885  I000 -122.426741  47.573261  2020-01-03  00:03:05
-...    ...         ...        ...         ...       ...
-4337  I000 -122.401519  47.610212  2020-01-03  23:54:51
-4338  I000 -122.401518  47.610148  2020-01-03  23:56:20
-4339  I000 -122.426740  47.572239  2020-01-03  23:57:24
-4340  I000 -122.426741  47.572172  2020-01-03  23:58:40
-4341  I000 -122.426741  47.572320  2020-01-03  23:59:54
-
-[1461 rows x 5 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fourth_day</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;2020-01-04&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">fourth_day</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># obtain id = I001</span>
+<span class="n">user1_df</span> <span class="o">=</span> <span class="n">movement_df</span><span class="p">[</span><span class="n">movement_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;I001&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user1_df</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14886,20 +14872,20 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>        id   longitude   latitude        date      time
-4342  I000 -122.426741  47.572793  2020-01-04  00:00:49
-4343  I000 -122.426741  47.572793  2020-01-04  00:00:00
-4344  I000 -122.426742  47.572599  2020-01-04  00:01:30
-4345  I000 -122.426742  47.573146  2020-01-04  00:02:59
-4346  I000 -122.426741  47.573272  2020-01-04  00:04:28
-...    ...         ...        ...         ...       ...
-5788  I000 -122.310673  47.624838  2020-01-04  23:56:14
-5789  I000 -122.310673  47.624979  2020-01-04  23:56:50
-5790  I000 -122.310674  47.625107  2020-01-04  23:57:23
-5791  I000 -122.310673  47.624658  2020-01-04  23:58:34
-5792  I000 -122.310674  47.624875  2020-01-04  23:59:47
+<pre>           id   longitude   latitude        date      time
+526488   I001 -122.335167  47.608013  2021-01-01  00:00:00
+526489   I001 -122.335167  47.608416  2021-01-01  00:00:34
+526490   I001 -122.335167  47.608363  2021-01-01  00:01:38
+526491   I001 -122.335167  47.608621  2021-01-01  00:02:23
+526492   I001 -122.335168  47.609453  2021-01-01  00:03:53
+...       ...         ...        ...         ...       ...
+1052506  I001 -122.283529  47.661327  2021-12-31  23:56:18
+1052507  I001 -122.283528  47.661337  2021-12-31  23:57:20
+1052508  I001 -122.283528  47.661537  2021-12-31  23:58:36
+1052509  I001 -122.283528  47.661027  2021-12-31  23:59:21
+1052510  I001 -122.333503  47.670401  2022-01-01  00:00:03
 
-[1451 rows x 5 columns]
+[526023 rows x 5 columns]
 </pre>
 </div>
 </div>
@@ -14916,8 +14902,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fifth_day</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;2020-01-05&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">fifth_day</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># obtain id = I002</span>
+<span class="n">user2_df</span> <span class="o">=</span> <span class="n">movement_df</span><span class="p">[</span><span class="n">movement_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;I002&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user2_df</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14937,20 +14924,20 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>        id   longitude   latitude        date      time
-5793  I000 -122.310674  47.625058  2020-01-05  00:00:29
-5794  I000 -122.310674  47.625058  2020-01-05  00:00:00
-5795  I000 -122.310674  47.625194  2020-01-05  00:00:52
-5796  I000 -122.310674  47.624954  2020-01-05  00:01:40
-5797  I000 -122.310674  47.625466  2020-01-05  00:02:58
-...    ...         ...        ...         ...       ...
-7246  I000 -122.358590  47.583690  2020-01-05  23:55:15
-7247  I000 -122.302819  47.603134  2020-01-05  23:56:38
-7248  I000 -122.302819  47.603109  2020-01-05  23:57:08
-7249  I000 -122.302818  47.603529  2020-01-05  23:57:51
-7250  I000 -122.302817  47.602916  2020-01-05  23:59:17
+<pre>           id   longitude   latitude        date      time
+1052511  I002 -122.335167  47.608013  2022-01-01  00:00:00
+1052512  I002 -122.335166  47.608015  2022-01-01  00:00:59
+1052513  I002 -122.335166  47.607992  2022-01-01  00:01:40
+1052514  I002 -122.335166  47.607698  2022-01-01  00:03:06
+1052515  I002 -122.335167  47.608117  2022-01-01  00:04:18
+...       ...         ...        ...         ...       ...
+1578210  I002 -122.304818  47.606004  2022-12-31  23:56:55
+1578211  I002 -122.304818  47.606249  2022-12-31  23:57:37
+1578212  I002 -122.304818  47.606304  2022-12-31  23:58:20
+1578213  I002 -122.304817  47.605764  2022-12-31  23:59:26
+1578214  I002 -122.304817  47.605323  2023-01-01  00:00:32
 
-[1458 rows x 5 columns]
+[525704 rows x 5 columns]
 </pre>
 </div>
 </div>
@@ -14967,8 +14954,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sixth_day</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;2020-01-06&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">sixth_day</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># obtain id = I003</span>
+<span class="n">user3_df</span> <span class="o">=</span> <span class="n">movement_df</span><span class="p">[</span><span class="n">movement_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;I003&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user3_df</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14988,20 +14976,20 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>        id   longitude   latitude        date      time
-7251  I000 -122.302817  47.603304  2020-01-06  00:00:31
-7252  I000 -122.302817  47.603304  2020-01-06  00:00:00
-7253  I000 -122.333503  47.670401  2020-01-06  00:00:37
-7254  I000 -122.333503  47.670340  2020-01-06  00:01:46
-7255  I000 -122.333503  47.670437  2020-01-06  00:02:22
-...    ...         ...        ...         ...       ...
-8675  I000 -122.317918  47.592392  2020-01-06  23:56:49
-8676  I000 -122.317918  47.592741  2020-01-06  23:57:29
-8677  I000 -122.317918  47.592082  2020-01-06  23:58:42
-8678  I000 -122.317918  47.591948  2020-01-06  23:59:17
-8679  I000 -122.317918  47.591892  2020-01-06  23:59:54
+<pre>           id   longitude   latitude        date      time
+1578215  I003 -122.335167  47.608013  2023-01-01  00:00:00
+1578216  I003 -122.335167  47.608032  2023-01-01  00:01:06
+1578217  I003 -122.335166  47.607914  2023-01-01  00:01:41
+1578218  I003 -122.335165  47.607619  2023-01-01  00:03:10
+1578219  I003 -122.335165  47.608035  2023-01-01  00:03:51
+...       ...         ...        ...         ...       ...
+2104256  I003 -122.306846  47.569950  2023-12-31  23:57:05
+2104257  I003 -122.306846  47.570213  2023-12-31  23:57:54
+2104258  I003 -122.306847  47.570342  2023-12-31  23:58:24
+2104259  I003 -122.306847  47.570434  2023-12-31  23:59:04
+2104260  I003 -122.306847  47.570633  2024-01-01  00:00:24
 
-[1429 rows x 5 columns]
+[526046 rows x 5 columns]
 </pre>
 </div>
 </div>
@@ -15018,8 +15006,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seventh_day</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;2020-01-07&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">seventh_day</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># obtain id = I004</span>
+<span class="n">user4_df</span> <span class="o">=</span> <span class="n">movement_df</span><span class="p">[</span><span class="n">movement_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;I004&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user4_df</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15039,20 +15028,20 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>         id   longitude   latitude        date      time
-8680   I000 -122.317917  47.591709  2020-01-07  00:01:05
-8681   I000 -122.317917  47.591709  2020-01-07  00:00:00
-8682   I000 -122.317919  47.591836  2020-01-07  00:01:13
-8683   I000 -122.317919  47.591838  2020-01-07  00:01:46
-8684   I000 -122.317919  47.592136  2020-01-07  00:02:40
-...     ...         ...        ...         ...       ...
-10130  I000 -122.333503  47.670684  2020-01-07  23:55:44
-10131  I000 -122.333503  47.670778  2020-01-07  23:56:58
-10132  I000 -122.333502  47.670814  2020-01-07  23:57:39
-10133  I000 -122.333502  47.671161  2020-01-07  23:58:16
-10134  I000 -122.333502  47.671214  2020-01-07  23:58:51
+<pre>           id   longitude   latitude        date      time
+2104261  I004 -122.335167  47.608013  2024-01-01  00:00:00
+2104262  I004 -122.335168  47.608063  2024-01-01  00:01:20
+2104263  I004 -122.335168  47.608062  2024-01-01  00:02:08
+2104264  I004 -122.335167  47.608341  2024-01-01  00:03:20
+2104265  I004 -122.335167  47.608580  2024-01-01  00:04:06
+...       ...         ...        ...         ...       ...
+2630299  I004 -122.401520  47.609645  2024-12-30  23:56:16
+2630300  I004 -122.401520  47.609442  2024-12-30  23:57:38
+2630301  I004 -122.401520  47.609116  2024-12-30  23:58:24
+2630302  I004 -122.401522  47.609175  2024-12-30  23:59:25
+2630303  I004 -122.401522  47.608958  2024-12-31  00:00:26
 
-[1455 rows x 5 columns]
+[526043 rows x 5 columns]
 </pre>
 </div>
 </div>
@@ -15069,9 +15058,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># let&#39;s create week long sample by concatinating the previously extracted 7 days</span>
-<span class="n">first_week</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">first_day</span><span class="p">,</span> <span class="n">second_day</span><span class="p">,</span> <span class="n">third_day</span><span class="p">,</span> <span class="n">fourth_day</span><span class="p">,</span> <span class="n">fifth_day</span><span class="p">,</span> <span class="n">sixth_day</span><span class="p">,</span> <span class="n">seventh_day</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_week</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># obtain id = I005</span>
+<span class="n">user5_df</span> <span class="o">=</span> <span class="n">movement_df</span><span class="p">[</span><span class="n">movement_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;I005&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user5_df</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15091,20 +15080,20 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>         id   longitude   latitude        date      time
-0      I000 -122.335167  47.608013  2020-01-01  00:00:00
-1      I000 -122.335168  47.608002  2020-01-01  00:01:07
-2      I000 -122.335169  47.608598  2020-01-01  00:02:30
-3      I000 -122.335168  47.608501  2020-01-01  00:03:40
-4      I000 -122.335169  47.607648  2020-01-01  00:05:07
-...     ...         ...        ...         ...       ...
-10130  I000 -122.333503  47.670684  2020-01-07  23:55:44
-10131  I000 -122.333503  47.670778  2020-01-07  23:56:58
-10132  I000 -122.333502  47.670814  2020-01-07  23:57:39
-10133  I000 -122.333502  47.671161  2020-01-07  23:58:16
-10134  I000 -122.333502  47.671214  2020-01-07  23:58:51
+<pre>           id   longitude   latitude        date      time
+2630304  I005 -122.335167  47.608013  2025-01-01  00:00:00
+2630305  I005 -122.335167  47.608048  2025-01-01  00:00:54
+2630306  I005 -122.335167  47.608114  2025-01-01  00:01:49
+2630307  I005 -122.335167  47.608522  2025-01-01  00:02:29
+2630308  I005 -122.335166  47.608717  2025-01-01  00:03:55
+...       ...         ...        ...         ...       ...
+3156549  I005 -122.310663  47.621918  2025-12-31  23:55:48
+3156550  I005 -122.310664  47.621088  2025-12-31  23:57:10
+3156551  I005 -122.310665  47.620794  2025-12-31  23:58:28
+3156552  I005 -122.409557  47.593025  2025-12-31  23:59:35
+3156553  I005 -122.310665  47.623651  2026-01-01  00:00:15
 
-[10135 rows x 5 columns]
+[526250 rows x 5 columns]
 </pre>
 </div>
 </div>
@@ -15121,11 +15110,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># let&#39;s extract a month long sample from the data</span>
-<span class="c1"># check that the string split from the date column is equal to the desired month of data in index 2</span>
-<span class="c1"># for example &quot;2020-01-01&quot; will be split into [&quot;2020&quot;, &quot;01&quot;, &quot;01&quot;], having index 1 be the month.</span>
-<span class="n">first_month</span> <span class="o">=</span> <span class="n">user0_df</span><span class="p">[</span><span class="n">user0_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;01&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_month</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># obtain id = I006</span>
+<span class="n">user6_df</span> <span class="o">=</span> <span class="n">movement_df</span><span class="p">[</span><span class="n">movement_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;I006&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user6_df</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15145,20 +15132,20 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>         id   longitude   latitude        date      time
-0      I000 -122.335167  47.608013  2020-01-01  00:00:00
-1      I000 -122.335168  47.608002  2020-01-01  00:01:07
-2      I000 -122.335169  47.608598  2020-01-01  00:02:30
-3      I000 -122.335168  47.608501  2020-01-01  00:03:40
-4      I000 -122.335169  47.607648  2020-01-01  00:05:07
-...     ...         ...        ...         ...       ...
-44784  I000 -122.352144  47.601679  2020-01-31  23:53:59
-44785  I000 -122.352144  47.601773  2020-01-31  23:55:10
-44786  I000 -122.310665  47.623651  2020-01-31  23:56:25
-44787  I000 -122.310666  47.624375  2020-01-31  23:57:50
-44788  I000 -122.310665  47.624342  2020-01-31  23:59:01
+<pre>           id   longitude   latitude        date      time
+3156554  I006 -122.335167  47.608013  2026-01-01  00:00:00
+3156555  I006 -122.374718  47.593698  2026-01-01  00:00:58
+3156556  I006 -122.374718  47.593699  2026-01-01  00:01:46
+3156557  I006 -122.374718  47.593374  2026-01-01  00:02:52
+3156558  I006 -122.374719  47.593362  2026-01-01  00:03:31
+...       ...         ...        ...         ...       ...
+3682539  I006 -122.374717  47.594371  2026-12-31  23:55:55
+3682540  I006 -122.374716  47.594714  2026-12-31  23:56:54
+3682541  I006 -122.374716  47.594682  2026-12-31  23:57:45
+3682542  I006 -122.374716  47.594417  2026-12-31  23:58:37
+3682543  I006 -122.374715  47.594027  2027-01-01  00:00:04
 
-[44789 rows x 5 columns]
+[525990 rows x 5 columns]
 </pre>
 </div>
 </div>
@@ -15167,22 +15154,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 </div>
 
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2> How accurate does lat long need to be? Can we round? </h2>
-<p> So, as you can see from the table below, a lat/long rounded up to a single decimal place can accurately identify a country or region, whereas rounded up to two could identify a large city or district. But five decimal places can accurately hone in on an individual tree, and six can identify a person. </p>
-<a> https://blis.com/precision-matters-critical-importance-decimal-places-five-lowest-go/ </a>
-<p> Therefore; we can round down to 4 if needed as it "Can identify an individual street or parcel of land" and has a distance of 11.1 meters. </p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15190,33 +15162,48 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">filter_travel_points</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">freq</span><span class="p">):</span>
-    <span class="c1"># round to 4 decimal places</span>
-    <span class="n">rounded_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-    <span class="n">rounded_df</span><span class="p">[[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span><span class="s2">&quot;date&quot;</span><span class="p">,</span><span class="s2">&quot;time&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span><span class="s2">&quot;date&quot;</span><span class="p">,</span><span class="s2">&quot;time&quot;</span><span class="p">]]</span>
-
-    <span class="c1"># group by (latitude,longitude) points to see most visited streets/parcels of land of about 11m in distance</span>
-    <span class="n">grouped_df</span> <span class="o">=</span> <span class="n">rounded_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
-    
-    <span class="c1"># keep only the points with occurrence &gt; freq</span>
-    <span class="n">filtered_df</span> <span class="o">=</span> <span class="n">grouped_df</span><span class="p">[</span><span class="n">grouped_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="n">freq</span><span class="p">]</span>
-
-    <span class="c1"># merge filtered with rounded</span>
-    <span class="n">merged1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">rounded_df</span><span class="p">,</span> <span class="n">filtered_df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span><span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
-    <span class="c1"># remove unnecessary columns</span>
-    <span class="n">merged1</span> <span class="o">=</span> <span class="n">merged1</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;id_x&quot;</span><span class="p">,</span> <span class="s2">&quot;id_y&quot;</span><span class="p">,</span><span class="s2">&quot;date_y&quot;</span><span class="p">,</span> <span class="s2">&quot;time_y&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    
-    <span class="c1"># merge original df with filtered to keep only the points with occurrence &gt; 5</span>
-    <span class="n">merged2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">merged1</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;date_x&quot;</span><span class="p">,</span><span class="s2">&quot;time_x&quot;</span><span class="p">])</span>
-    <span class="c1"># remove unnecessary columns (repeats)</span>
-    <span class="n">merged2</span> <span class="o">=</span> <span class="n">merged2</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;date_x&quot;</span><span class="p">,</span> <span class="s2">&quot;time_x&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">merged2</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># obtain id = I007</span>
+<span class="n">user7_df</span> <span class="o">=</span> <span class="n">movement_df</span><span class="p">[</span><span class="n">movement_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;I007&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user7_df</span><span class="p">)</span>
 </pre></div>
 
      </div>
 </div>
 </div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>           id   longitude   latitude        date      time
+3682544  I007 -122.335167  47.608013  2027-01-01  00:00:00
+3682545  I007 -122.335167  47.608077  2027-01-01  00:00:30
+3682546  I007 -122.335168  47.608177  2027-01-01  00:01:06
+3682547  I007 -122.335168  47.608712  2027-01-01  00:02:22
+3682548  I007 -122.335168  47.608730  2027-01-01  00:03:21
+...       ...         ...        ...         ...       ...
+4208560  I007 -122.310666  47.624261  2027-12-31  23:58:01
+4208561  I007 -122.310666  47.624190  2027-12-31  23:58:35
+4208562  I007 -122.310666  47.624302  2027-12-31  23:59:16
+4208563  I007 -122.310666  47.624187  2027-12-31  23:59:53
+4208564  I007 -122.310666  47.624286  2028-01-01  00:00:49
+
+[526021 rows x 5 columns]
+</pre>
+</div>
+</div>
+
+</div>
+
 </div>
 
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -15227,9 +15214,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># filter df and check results</span>
-<span class="n">day_filtered_df</span> <span class="o">=</span> <span class="n">filter_travel_points</span><span class="p">(</span><span class="n">first_day</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">day_filtered_df</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># obtain id = I008</span>
+<span class="n">user8_df</span> <span class="o">=</span> <span class="n">movement_df</span><span class="p">[</span><span class="n">movement_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;I008&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user8_df</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15249,20 +15236,20 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>       id   longitude   latitude        date      time
-0    I000 -122.374718  47.593698  2020-01-01  00:38:02
-1    I000 -122.374718  47.593727  2020-01-01  00:38:42
-2    I000 -122.374718  47.594143  2020-01-01  00:43:52
-3    I000 -122.374718  47.593698  2020-01-01  02:13:39
-4    I000 -122.333503  47.670401  2020-01-01  05:37:20
-..    ...         ...        ...         ...       ...
-150  I000 -122.333502  47.670388  2020-01-01  23:13:09
-151  I000 -122.333503  47.670426  2020-01-01  23:13:45
-152  I000 -122.333503  47.670419  2020-01-01  23:16:22
-153  I000 -122.333503  47.670392  2020-01-01  23:17:02
-154  I000 -122.333503  47.670391  2020-01-01  23:17:45
+<pre>           id   longitude   latitude        date      time
+4208565  I008 -122.335167  47.608013  2028-01-01  00:00:00
+4208566  I008 -122.335167  47.608116  2028-01-01  00:01:30
+4208567  I008 -122.426740  47.572239  2028-01-01  00:02:08
+4208568  I008 -122.426740  47.571909  2028-01-01  00:03:10
+4208569  I008 -122.426739  47.571937  2028-01-01  00:03:57
+...       ...         ...        ...         ...       ...
+4734997  I008 -122.371733  47.688565  2028-12-30  23:56:21
+4734998  I008 -122.374718  47.593698  2028-12-30  23:57:14
+4734999  I008 -122.374718  47.594285  2028-12-30  23:58:40
+4735000  I008 -122.374718  47.594167  2028-12-30  23:59:22
+4735001  I008 -122.283529  47.660922  2028-12-31  00:00:38
 
-[155 rows x 5 columns]
+[526437 rows x 5 columns]
 </pre>
 </div>
 </div>
@@ -15279,9 +15266,9 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># repeat for week sample</span>
-<span class="n">week_filtered_df</span> <span class="o">=</span> <span class="n">filter_travel_points</span><span class="p">(</span><span class="n">first_week</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">week_filtered_df</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># obtain id = I009</span>
+<span class="n">user9_df</span> <span class="o">=</span> <span class="n">movement_df</span><span class="p">[</span><span class="n">movement_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;I009&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user9_df</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15301,20 +15288,20 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>       id   longitude   latitude        date      time
-0    I000 -122.374718  47.593698  2020-01-01  00:38:02
-1    I000 -122.374718  47.593727  2020-01-01  00:38:42
-2    I000 -122.426740  47.572239  2020-01-01  01:18:46
-3    I000 -122.426740  47.572203  2020-01-01  01:19:26
-4    I000 -122.317921  47.592167  2020-01-01  01:41:47
-..    ...         ...        ...         ...       ...
-884  I000 -122.381754  47.544480  2020-01-07  23:11:23
-885  I000 -122.333503  47.670401  2020-01-07  23:50:52
-886  I000 -122.333503  47.670204  2020-01-07  23:51:29
-887  I000 -122.333503  47.670207  2020-01-07  23:52:02
-888  I000 -122.333503  47.670238  2020-01-07  23:52:49
+<pre>           id   longitude   latitude        date      time
+4735002  I009 -122.335167  47.608013  2029-01-01  00:00:00
+4735003  I009 -122.335167  47.607939  2029-01-01  00:00:55
+4735004  I009 -122.335167  47.608053  2029-01-01  00:02:09
+4735005  I009 -122.335167  47.608076  2029-01-01  00:03:20
+4735006  I009 -122.335167  47.608227  2029-01-01  00:03:51
+...       ...         ...        ...         ...       ...
+5260825  I009 -122.409557  47.594471  2029-12-31  23:56:32
+5260826  I009 -122.409557  47.594432  2029-12-31  23:57:38
+5260827  I009 -122.409557  47.594305  2029-12-31  23:58:09
+5260828  I009 -122.409557  47.594445  2029-12-31  23:59:20
+5260829  I009 -122.409558  47.594986  2030-01-01  00:00:32
 
-[889 rows x 5 columns]
+[525828 rows x 5 columns]
 </pre>
 </div>
 </div>
@@ -15323,7 +15310,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15331,925 +15318,24 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># repeat for month sample</span>
-<span class="n">month_filtered_df</span> <span class="o">=</span> <span class="n">filter_travel_points</span><span class="p">(</span><span class="n">first_month</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">month_filtered_df</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># write clean data into separate csv files</span>
+<span class="c1"># this step will provide us with an easy way to access the separated data whether in R or Python and will get around the Github file size restriction.</span>
+
+<span class="n">user0_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./CleanData/movements_0.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">user1_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./CleanData/movements_1.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">user2_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./CleanData/movements_2.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">user3_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./CleanData/movements_3.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">user4_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./CleanData/movements_4.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">user5_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./CleanData/movements_5.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">user6_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./CleanData/movements_6.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">user7_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./CleanData/movements_7.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">user8_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./CleanData/movements_8.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">user9_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./CleanData/movements_9.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
      </div>
 </div>
 </div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>        id   longitude   latitude        date      time
-0     I000 -122.374718  47.593698  2020-01-01  00:38:02
-1     I000 -122.374718  47.593727  2020-01-01  00:38:42
-2     I000 -122.426740  47.572239  2020-01-01  01:18:46
-3     I000 -122.426740  47.572203  2020-01-01  01:19:26
-4     I000 -122.317921  47.592167  2020-01-01  01:41:47
-...    ...         ...        ...         ...       ...
-3919  I000 -122.317921  47.592167  2020-01-31  23:30:25
-3920  I000 -122.317919  47.592235  2020-01-31  23:33:57
-3921  I000 -122.352143  47.602017  2020-01-31  23:40:03
-3922  I000 -122.352144  47.602006  2020-01-31  23:41:30
-3923  I000 -122.310665  47.623651  2020-01-31  23:56:25
-
-[3924 rows x 5 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># save filtered data to csv</span>
-<span class="n">day_filtered_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./FilteredData/day_round_filtered_0.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">week_filtered_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./FilteredData/week_round_filtered_0.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">month_filtered_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;./FilteredData/month_round_filtered_0.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3> Create function to form clusters from the dataset </h3>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_clusters</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">min_size</span><span class="p">):</span>
-    <span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
-    <span class="n">points</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">]]</span>
-    <span class="n">scaled_df</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-
-    <span class="c1"># create clusterer</span>
-    <span class="n">clusterer</span> <span class="o">=</span> <span class="n">hdbscan</span><span class="o">.</span><span class="n">HDBSCAN</span><span class="p">(</span><span class="n">min_cluster_size</span><span class="o">=</span><span class="n">min_size</span><span class="p">)</span>
-
-    <span class="c1"># labels assigns each point to a cluster</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="n">clusterer</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">scaled_df</span><span class="p">)</span>
-
-    <span class="c1"># add the clusters to the df</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">df</span>
-    <span class="n">result</span><span class="p">[</span><span class="s2">&quot;cluster_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span>
-
-    <span class="k">return</span> <span class="n">result</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create clusters from filtered data</span>
-<span class="n">day_cluster_df</span> <span class="o">=</span> <span class="n">create_clusters</span><span class="p">(</span><span class="n">day_filtered_df</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">day_cluster_df</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>       id   longitude   latitude        date      time  cluster_label
-0    I000 -122.374718  47.593698  2020-01-01  00:38:02              2
-1    I000 -122.374718  47.593727  2020-01-01  00:38:42              2
-2    I000 -122.374718  47.594143  2020-01-01  00:43:52              3
-3    I000 -122.374718  47.593698  2020-01-01  02:13:39              2
-4    I000 -122.333503  47.670401  2020-01-01  05:37:20              1
-..    ...         ...        ...         ...       ...            ...
-150  I000 -122.333502  47.670388  2020-01-01  23:13:09              1
-151  I000 -122.333503  47.670426  2020-01-01  23:13:45              1
-152  I000 -122.333503  47.670419  2020-01-01  23:16:22              1
-153  I000 -122.333503  47.670392  2020-01-01  23:17:02              1
-154  I000 -122.333503  47.670391  2020-01-01  23:17:45              1
-
-[155 rows x 6 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">week_cluster_df</span> <span class="o">=</span> <span class="n">create_clusters</span><span class="p">(</span><span class="n">week_filtered_df</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">week_cluster_df</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>       id   longitude   latitude        date      time  cluster_label
-0    I000 -122.374718  47.593698  2020-01-01  00:38:02             14
-1    I000 -122.374718  47.593727  2020-01-01  00:38:42             14
-2    I000 -122.426740  47.572239  2020-01-01  01:18:46              7
-3    I000 -122.426740  47.572203  2020-01-01  01:19:26              7
-4    I000 -122.317921  47.592167  2020-01-01  01:41:47             12
-..    ...         ...        ...         ...       ...            ...
-884  I000 -122.381754  47.544480  2020-01-07  23:11:23              0
-885  I000 -122.333503  47.670401  2020-01-07  23:50:52              2
-886  I000 -122.333503  47.670204  2020-01-07  23:51:29              1
-887  I000 -122.333503  47.670207  2020-01-07  23:52:02              1
-888  I000 -122.333503  47.670238  2020-01-07  23:52:49              1
-
-[889 rows x 6 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">month_cluster_df</span> <span class="o">=</span> <span class="n">create_clusters</span><span class="p">(</span><span class="n">month_filtered_df</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">month_cluster_df</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>        id   longitude   latitude        date      time  cluster_label
-0     I000 -122.374718  47.593698  2020-01-01  00:38:02              7
-1     I000 -122.374718  47.593727  2020-01-01  00:38:42              7
-2     I000 -122.426740  47.572239  2020-01-01  01:18:46              8
-3     I000 -122.426740  47.572203  2020-01-01  01:19:26              8
-4     I000 -122.317921  47.592167  2020-01-01  01:41:47             20
-...    ...         ...        ...         ...       ...            ...
-3919  I000 -122.317921  47.592167  2020-01-31  23:30:25             20
-3920  I000 -122.317919  47.592235  2020-01-31  23:33:57             20
-3921  I000 -122.352143  47.602017  2020-01-31  23:40:03             12
-3922  I000 -122.352144  47.602006  2020-01-31  23:41:30             12
-3923  I000 -122.310665  47.623651  2020-01-31  23:56:25             16
-
-[3924 rows x 6 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3> List each cluster with the number of points found in it </h3>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># see how many points are per cluster</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">day_cluster_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;cluster_label&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>    cluster_label  id  longitude  latitude  date  time
-0              -1   5          5         5     5     5
-14             13   7          7         7     7     7
-13             12   7          7         7     7     7
-12             11   7          7         7     7     7
-9               8   7          7         7     7     7
-7               6   7          7         7     7     7
-17             16   7          7         7     7     7
-4               3   7          7         7     7     7
-10              9   8          8         8     8     8
-11             10   8          8         8     8     8
-2               1   8          8         8     8     8
-1               0   8          8         8     8     8
-8               7   8          8         8     8     8
-6               5   9          9         9     9     9
-3               2  10         10        10    10    10
-15             14  13         13        13    13    13
-16             15  14         14        14    14    14
-5               4  15         15        15    15    15
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">week_cluster_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;cluster_label&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>    cluster_label   id  longitude  latitude  date  time
-13             13   31         31        31    31    31
-6               6   31         31        31    31    31
-10             10   32         32        32    32    32
-0               0   33         33        33    33    33
-1               1   35         35        35    35    35
-9               9   36         36        36    36    36
-19             19   36         36        36    36    36
-15             15   37         37        37    37    37
-16             16   37         37        37    37    37
-18             18   39         39        39    39    39
-7               7   42         42        42    42    42
-3               3   43         43        43    43    43
-12             12   43         43        43    43    43
-14             14   43         43        43    43    43
-4               4   45         45        45    45    45
-5               5   47         47        47    47    47
-8               8   48         48        48    48    48
-11             11   49         49        49    49    49
-17             17   56         56        56    56    56
-2               2  126        126       126   126   126
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">month_cluster_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;cluster_label&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>    cluster_label   id  longitude  latitude  date  time
-15             15  151        151       151   151   151
-11             11  152        152       152   152   152
-12             12  158        158       158   158   158
-9               9  159        159       159   159   159
-21             21  167        167       167   167   167
-18             18  168        168       168   168   168
-4               4  169        169       169   169   169
-8               8  170        170       170   170   170
-1               1  171        171       171   171   171
-14             14  171        171       171   171   171
-6               6  177        177       177   177   177
-20             20  178        178       178   178   178
-13             13  178        178       178   178   178
-7               7  179        179       179   179   179
-10             10  181        181       181   181   181
-5               5  182        182       182   182   182
-19             19  188        188       188   188   188
-17             17  192        192       192   192   192
-3               3  203        203       203   203   203
-16             16  208        208       208   208   208
-2               2  211        211       211   211   211
-0               0  211        211       211   211   211
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3> <b>Next Step:</b> Produce a mappable output supported by Mapbox (our visualization tool) </h3>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create function to turn a df to a geojson dictionary</span>
-<span class="c1"># referenced this page on how to create a geojson from a df: https://medium.com/@strateg17/easily-create-geojson-file-from-pandas-data-frame-b114b5c6d770</span>
-
-<span class="k">def</span> <span class="nf">df_to_geojson</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-    <span class="n">geojson</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;FeatureCollection&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">[]</span>
-    <span class="p">}</span>
-
-    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-        <span class="n">feature</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]},</span>
-            <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Point&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]]</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="n">geojson</span><span class="p">[</span><span class="s2">&quot;features&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">geojson</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
-
-<span class="c1"># create function to write geojson dict to a file</span>
-<span class="k">def</span> <span class="nf">write_to_geojson</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">geojson</span><span class="p">):</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
-        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">geojson</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finished writing geojson dict to &quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create geojson dict for cluster for rounding method used in this file</span>
-<span class="n">day_round_geojson</span> <span class="o">=</span> <span class="n">df_to_geojson</span><span class="p">(</span><span class="n">day_cluster_df</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">day_round_geojson</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>{&#39;type&#39;: &#39;FeatureCollection&#39;, &#39;features&#39;: [{&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;00:38:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;00:38:42&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471821899534, 47.593726805143966]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;00:43:52&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747175079831, 47.59414323842463]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;02:13:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;05:37:20&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350285844485, 47.67040083251598]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;07:39:23&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638671416374, 47.61888538834712]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:16:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638586427368, 47.61471983382876]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:20:30&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638923215534, 47.61467077255274]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:24:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639071044724, 47.61471013714015]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:26:49&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3163900709384, 47.61467909249115]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:27:20&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639035718004, 47.61472584809193]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:31:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639059492724, 47.614691949721866]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:32:06&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3163907305514, 47.61468106532683]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;08:33:17&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31639070976242, 47.614721555369016]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:37:17&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253111858867, 47.64854971464861]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:37:56&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725314102603, 47.64836841187388]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:38:31&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253143582304, 47.64843706001259]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:39:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253171003557, 47.64854630059344]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:43:11&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253268039946, 47.64849006701754]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:44:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725324061743, 47.64845241685952]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:45:15&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725313813993, 47.64843840423497]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:48:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253299948804, 47.64905751502797]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:53:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725329469028, 47.64908832419211]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:55:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253320271218, 47.64907819258535]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:56:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253354039031, 47.64844909747828]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;09:59:38&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253433741328, 47.64840724468175]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:01:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253465384892, 47.649135233865934]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:06:18&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253394721336, 47.64913901906394]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:09:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253589414956, 47.64847447422903]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:11:07&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253607979716, 47.64852070838224]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:11:53&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725361028785, 47.64851680493896]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:15:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253555288156, 47.64909971075337]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:19:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253551917984, 47.64837119295519]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:33:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27253640080372, 47.64846485528149]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;10:55:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014707239072, 47.56459651000617]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:00:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201477466987, 47.56367960407216]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:03:12&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014723357872, 47.56456520916576]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:04:41&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014704418005, 47.56463543003539]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:10:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014432271902, 47.5646003238761]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:11:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014423387976, 47.56459011141625]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:19:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014754421267, 47.56459278694467]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:21:36&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201468421407, 47.563663044291246]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:37:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201455412003, 47.56321156939088]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;11:57:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014511793912, 47.563246518405954]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:06:53&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014639224228, 47.563188440657136]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:07:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014700457296, 47.56370921977015]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:08:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014713517454, 47.56366947582438]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:09:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014712930288, 47.563692965578575]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:13:42&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014734327934, 47.56462439839311]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:19:45&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201472905298, 47.56315520335199]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:21:10&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014674169707, 47.563192121926924]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:27:38&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3201450502846, 47.56369324252189]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:29:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014538220017, 47.56368669043116]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:30:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014538246295, 47.56368663564251]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:34:41&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014482184957, 47.56317450153203]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:36:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014607010277, 47.56323567749356]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;12:42:46&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32014624576853, 47.56459296083211]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:41:06&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638798396696, 47.61893576695209]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:42:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3163888538327, 47.61888909476972]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:45:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638877444342, 47.61891635709498]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;13:52:46&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638842954942, 47.61889087114027]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:10:20&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:10:57&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028186335034, 47.603180907205925]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:11:36&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281842086865, 47.60317569533493]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:12:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281838995434, 47.60313781992888]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:14:01&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302816894586, 47.60329512702919]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:15:13&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937560438304, 47.58552784137221]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:24:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937509208276, 47.58546807191935]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:25:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937505731574, 47.585472961447145]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:37:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937149732184, 47.5863323616302]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:39:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937144252396, 47.58630378771417]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:42:01&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937197224812, 47.58634688502946]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:44:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937309744189, 47.58633930632181]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:44:52&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937337748508, 47.58628013951324]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;14:45:30&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937338316006, 47.58628655168552]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:00:49&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2993736295301, 47.58554630210048]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:20:53&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:27:35&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937560438304, 47.58552784137221]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:36:49&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937531892878, 47.5863009997072]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:53:48&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;15:56:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471757735052, 47.59374468352296]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:03:07&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471782055744, 47.59374475628893]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:08:03&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:09:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028195907543, 47.60289921241313]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:10:47&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281958640414, 47.60289946734184]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:13:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281983110469, 47.602858652214906]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:20:05&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281639510048, 47.60327326385745]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:20:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281648657424, 47.603278086579216]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:21:26&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281684891052, 47.60323269502179]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:23:47&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281699219708, 47.6028716610583]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:54:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:55:05&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281854205636, 47.60327550935971]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:56:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281807394216, 47.60333353097691]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;16:56:56&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281808571026, 47.6033298244786]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:01:18&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281902521428, 47.60332911594804]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:02:18&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281869735516, 47.60315536993503]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:03:08&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281930413106, 47.60314043571735]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:04:19&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30282008126478, 47.6031947369036]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:07:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028195264424, 47.60294905035706]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:08:38&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302819458113, 47.60294563344134]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:11:01&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028190919388, 47.60291151452793]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:15:08&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:16:14&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281768179978, 47.60287000292346]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:20:04&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281784576054, 47.60291157655172]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:21:13&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281767468696, 47.602915222948575]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:21:58&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028173781334, 47.60324054137436]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:28:10&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281887706676, 47.60323165987548]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;17:34:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281913312956, 47.6029214818689]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:33:52&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.27252868014426, 47.64906744895435]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:34:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725286918968, 47.649078691254914]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:35:58&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725286846762, 47.64905540882802]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:47:49&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.2725287788332, 47.64841368389624]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;18:52:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32698462396856, 47.54416223600759]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:00:15&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32698437581855, 47.54424221322679]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:07:41&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:08:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281854440544, 47.60313954097203]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:09:34&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281855246348, 47.603260054836056]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:26:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747182371207, 47.59369838078001]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:28:51&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747183516916, 47.59413714414968]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:31:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747185345071, 47.59412973320643]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:46:37&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471832240618, 47.594077923477045]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:50:34&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471853072488, 47.59412586559385]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:51:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747188852998, 47.59408745522973]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;19:55:55&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471906611604, 47.594073904028]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:00:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3747193214314, 47.59369945660064]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:01:40&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.37471930669037, 47.59366633100813]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:42:56&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281852468715, 47.60313436532212]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:43:29&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.302818817923, 47.60330722712482]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:44:11&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281897916396, 47.60290659951511]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:45:26&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.30281893455532, 47.60293672945634]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;20:49:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3028204907122, 47.60312002851839]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:06:06&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32698462396856, 47.54416223600759]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:10:48&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32698461599036, 47.54423357004666]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:19:27&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32698409168228, 47.54415463645047]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:25:50&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32698466373763, 47.54415346682339]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:41:21&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638810709524, 47.618927832820326]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:48:43&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.31638946235594, 47.61890748821646]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:51:42&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152048578958, 47.61050213647615]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;21:59:30&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.4015232088859, 47.610483437443605]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:00:32&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152266717506, 47.61050592983122]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:02:06&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.4015221797943, 47.61049190294003]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:05:25&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152123548076, 47.61047346462984]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:06:27&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152197841006, 47.61054206890024]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:07:39&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152183959994, 47.61050963785864]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:10:54&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.40152311753344, 47.61046283740925]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:57:20&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937560438304, 47.58552784137221]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:58:40&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.29937560678827, 47.585547440794514]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;22:59:58&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.32698462396856, 47.54416223600759]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:10:24&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350285844485, 47.67040083251598]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:11:16&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350324408376, 47.67036496781615]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:13:09&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350238528456, 47.670387931616126]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:13:45&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3335025253198, 47.67042634368397]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:16:22&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350250965192, 47.670418854585634]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:17:02&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.33350260660788, 47.67039239406618]}}, {&#39;type&#39;: &#39;Feature&#39;, &#39;properties&#39;: {&#39;date&#39;: &#39;2020-01-01&#39;, &#39;time&#39;: &#39;23:17:45&#39;}, &#39;geometry&#39;: {&#39;type&#39;: &#39;Point&#39;, &#39;coordinates&#39;: [-122.3335028229883, 47.67039148862536]}}]}
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">week_round_geojson</span> <span class="o">=</span> <span class="n">df_to_geojson</span><span class="p">(</span><span class="n">week_cluster_df</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[28]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">month_round_geojson</span> <span class="o">=</span> <span class="n">df_to_geojson</span><span class="p">(</span><span class="n">month_cluster_df</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[29]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">write_to_geojson</span><span class="p">(</span><span class="s2">&quot;./ClusterResults/day_round_clusters_0.json&quot;</span><span class="p">,</span> <span class="n">day_round_geojson</span><span class="p">)</span>
-<span class="n">write_to_geojson</span><span class="p">(</span><span class="s2">&quot;./ClusterResults/week_round_clusters_0.json&quot;</span><span class="p">,</span> <span class="n">week_round_geojson</span><span class="p">)</span>
-<span class="n">write_to_geojson</span><span class="p">(</span><span class="s2">&quot;./ClusterResults/month_round_clusters_0.json&quot;</span><span class="p">,</span> <span class="n">month_round_geojson</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Finished writing geojson dict to  ./ClusterResults/day_round_clusters_0.json
-Finished writing geojson dict to  ./ClusterResults/week_round_clusters_0.json
-Finished writing geojson dict to  ./ClusterResults/month_round_clusters_0.json
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3> Load dataset filtered with the distance filtering method in order to convert it to geojson format </h3>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[30]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create geojson dict for cluster for distance method used in R file</span>
-<span class="c1"># First, import the file as a df</span>
-<span class="n">distance_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./FilteredData/distance_filtered_0.csv&quot;</span><span class="p">)</span>
-
-<span class="c1"># Narrow down data to be the same day as the one we&#39;re doing exploratory analyzis on</span>
-<span class="n">first_dist_df</span> <span class="o">=</span> <span class="n">distance_df</span><span class="p">[</span><span class="n">distance_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;2020-01-01&quot;</span><span class="p">]</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">first_dist_df</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>           date      time   longitude   latitude  samples
-0    2020-01-01  00:06:55 -122.335169  47.607230        3
-1    2020-01-01  00:11:07 -122.335169  47.607051        1
-2    2020-01-01  00:19:34 -122.335170  47.606697        4
-3    2020-01-01  00:57:13 -122.374123  47.609739       10
-4    2020-01-01  01:43:42 -122.317921  47.591803        2
-..          ...       ...         ...        ...      ...
-110  2020-01-01  23:28:26 -122.348794  47.677851        5
-111  2020-01-01  23:33:59 -122.371732  47.689321        1
-112  2020-01-01  23:47:51 -122.371731  47.689373        3
-113  2020-01-01  23:52:23 -122.381755  47.544283        3
-114  2020-01-01  23:57:26 -122.381755  47.543849       10
-
-[115 rows x 5 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[31]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># get the other days as well in order to form week sample</span>
-<span class="n">second_dist_df</span> <span class="o">=</span> <span class="n">distance_df</span><span class="p">[</span><span class="n">distance_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;2020-01-02&quot;</span><span class="p">]</span>
-<span class="n">third_dist_df</span> <span class="o">=</span> <span class="n">distance_df</span><span class="p">[</span><span class="n">distance_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;2020-01-03&quot;</span><span class="p">]</span>
-<span class="n">fourth_dist_df</span> <span class="o">=</span> <span class="n">distance_df</span><span class="p">[</span><span class="n">distance_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;2020-01-04&quot;</span><span class="p">]</span>
-<span class="n">fifth_dist_df</span> <span class="o">=</span> <span class="n">distance_df</span><span class="p">[</span><span class="n">distance_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;2020-01-05&quot;</span><span class="p">]</span>
-<span class="n">sixth_dist_df</span> <span class="o">=</span> <span class="n">distance_df</span><span class="p">[</span><span class="n">distance_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;2020-01-06&quot;</span><span class="p">]</span>
-<span class="n">seventh_dist_df</span> <span class="o">=</span> <span class="n">distance_df</span><span class="p">[</span><span class="n">distance_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;2020-01-07&quot;</span><span class="p">]</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[32]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># concat days into week sample</span>
-<span class="n">week_dist_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">first_dist_df</span><span class="p">,</span> <span class="n">second_dist_df</span><span class="p">,</span> <span class="n">third_dist_df</span><span class="p">,</span> <span class="n">fourth_dist_df</span><span class="p">,</span> <span class="n">fifth_dist_df</span><span class="p">,</span> <span class="n">sixth_dist_df</span><span class="p">,</span> <span class="n">seventh_dist_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">week_dist_df</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>           date      time   longitude   latitude  samples
-0    2020-01-01  00:06:55 -122.335169  47.607230        3
-1    2020-01-01  00:11:07 -122.335169  47.607051        1
-2    2020-01-01  00:19:34 -122.335170  47.606697        4
-3    2020-01-01  00:57:13 -122.374123  47.609739       10
-4    2020-01-01  01:43:42 -122.317921  47.591803        2
-..          ...       ...         ...        ...      ...
-738  2020-01-07  23:22:24 -122.316388  47.619218        3
-739  2020-01-07  23:28:13 -122.316389  47.619315        4
-740  2020-01-07  23:33:15 -122.316390  47.618818        4
-741  2020-01-07  23:38:13 -122.316391  47.619657        2
-742  2020-01-07  23:43:01 -122.316388  47.618855       10
-
-[743 rows x 5 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create month sample for jan 2020</span>
-<span class="n">month_dist_df</span> <span class="o">=</span> <span class="n">distance_df</span><span class="p">[</span><span class="n">distance_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;01&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">month_dist_df</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>            date      time   longitude   latitude  samples
-0     2020-01-01  00:06:55 -122.335169  47.607230        3
-1     2020-01-01  00:11:07 -122.335169  47.607051        1
-2     2020-01-01  00:19:34 -122.335170  47.606697        4
-3     2020-01-01  00:57:13 -122.374123  47.609739       10
-4     2020-01-01  01:43:42 -122.317921  47.591803        2
-...          ...       ...         ...        ...      ...
-3302  2020-01-31  21:30:28 -122.401525  47.609866        5
-3303  2020-01-31  21:35:31 -122.401524  47.610257        3
-3304  2020-01-31  21:42:17 -122.375766  47.593131       10
-3305  2020-01-31  23:40:03 -122.352143  47.601971        3
-3306  2020-01-31  23:53:08 -122.317616  47.602262       10
-
-[3307 rows x 5 columns]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[34]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># finally, write file</span>
-<span class="n">day_distance_geojson</span> <span class="o">=</span> <span class="n">df_to_geojson</span><span class="p">(</span><span class="n">first_dist_df</span><span class="p">)</span>
-<span class="n">week_distance_geojson</span> <span class="o">=</span> <span class="n">df_to_geojson</span><span class="p">(</span><span class="n">week_dist_df</span><span class="p">)</span>
-<span class="n">month_distance_geojson</span> <span class="o">=</span> <span class="n">df_to_geojson</span><span class="p">(</span><span class="n">month_dist_df</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[35]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># write to file</span>
-<span class="n">write_to_geojson</span><span class="p">(</span><span class="s2">&quot;./ClusterResults/day_distance_clusters_0.json&quot;</span><span class="p">,</span> <span class="n">day_distance_geojson</span><span class="p">)</span>
-<span class="n">write_to_geojson</span><span class="p">(</span><span class="s2">&quot;./ClusterResults/week_distance_clusters_0.json&quot;</span><span class="p">,</span> <span class="n">week_distance_geojson</span><span class="p">)</span>
-<span class="n">write_to_geojson</span><span class="p">(</span><span class="s2">&quot;./ClusterResults/month_distance_clusters_0.json&quot;</span><span class="p">,</span> <span class="n">month_distance_geojson</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Finished writing geojson dict to  ./ClusterResults/day_distance_clusters_0.json
-Finished writing geojson dict to  ./ClusterResults/week_distance_clusters_0.json
-Finished writing geojson dict to  ./ClusterResults/month_distance_clusters_0.json
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[36]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>jupyter<span class="w"> </span>nbconvert<span class="w"> </span>--to<span class="w"> </span>html<span class="w"> </span>clusterer.ipynb
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>[NbConvertApp] Converting notebook clusterer.ipynb to html
-[NbConvertApp] Writing 694495 bytes to clusterer.html
-</pre>
-</div>
-</div>
-
-</div>
-
 </div>
 
 </div>
